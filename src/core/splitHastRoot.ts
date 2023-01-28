@@ -1,11 +1,16 @@
 import { Root } from 'hast'
 
-function splitHastRoot(root: Root): Root[] {
-  return root.children.reduce<Root[]>((acc, content) => {
+import Page from './Page'
+
+function splitHastRoot(root: Root): Page[] {
+  return root.children.reduce<Page[]>((acc, content) => {
     if (content.type === 'element') {
       acc.push({
-        type: 'root',
-        children: content.tagName === 'hr' ? [] : [content],
+        contents: {
+          type: 'root',
+          children: content.tagName === 'hr' ? [] : [content],
+        },
+        // TODO - add `note` prop
       })
     }
 
