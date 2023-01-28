@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  /* TODO - Manipulate aspect ratio by overriding CSS variables */
+  .aspect-ratio-variable {
+    aspect-ratio: var(--aspect-ratio-presentation, 16 / 9);
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
