@@ -10,6 +10,7 @@ function splitHastRoot(root: Root): Page[] {
           type: 'root',
           children: content.tagName === 'hr' ? [] : [content],
         },
+        pageNumber: (acc[acc.length - 1]?.pageNumber ?? 0) + 1,
         // TODO - add `note` prop
       })
     }

@@ -6,10 +6,9 @@ import Page from '../core/Page'
 
 type PageListItemProps = {
   page: Page
-  pageNumber?: number
 }
 
-function PageListItem({ page, pageNumber }: PageListItemProps) {
+function PageListItem({ page }: PageListItemProps) {
   const preview = useMemo(
     () =>
       unified()
@@ -26,9 +25,9 @@ function PageListItem({ page, pageNumber }: PageListItemProps) {
 
       <div className="flex gap-0 box-content mt-2 text-sm leading-4">
         <div className="flex-shrink-0 w-10 whitespace-nowrap overflow-hidden">
-          {pageNumber > 0 ? (
+          {page.pageNumber > 0 ? (
             <>
-              {pageNumber}.
+              {page.pageNumber}.
               <br />
               &nbsp;
             </>
