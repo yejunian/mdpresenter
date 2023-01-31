@@ -5,16 +5,18 @@ import { unified } from 'unified'
 import Page from '../core/Page'
 
 type PageListItemProps = {
-  page: Page
+  page: Page | null
 }
 
 function PageListItem({ page }: PageListItemProps) {
   const preview = useMemo(
     () =>
-      unified()
-        .use(rehypeReact, { createElement, Fragment })
-        .stringify(page.contents),
-    [page.contents]
+      page
+        ? unified()
+            .use(rehypeReact, { createElement, Fragment })
+            .stringify(page.contents)
+        : null,
+    [page, page?.contents]
   )
 
   return (
@@ -25,7 +27,7 @@ function PageListItem({ page }: PageListItemProps) {
 
       <div className="flex gap-0 box-content mt-2 text-sm leading-4">
         <div className="flex-shrink-0 w-10 whitespace-nowrap overflow-hidden">
-          {page.pageNumber > 0 ? (
+          {page && page.pageNumber > 0 ? (
             <>
               {page.pageNumber}.
               <br />
@@ -41,9 +43,9 @@ function PageListItem({ page }: PageListItemProps) {
         </div>
         <div
           className="overflow-hidden line-clamp-2"
-          title={page.note || undefined}
+          title={page?.note || undefined}
         >
-          {page.note || ''}
+          {page?.note || null}
         </div>
       </div>
     </article>
