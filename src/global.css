@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    @apply bg-zinc-800 text-zinc-300;
+  }
+}
+
 @layer utilities {
   /* TODO - Manipulate aspect ratio by overriding CSS variables */
   .aspect-ratio-variable {

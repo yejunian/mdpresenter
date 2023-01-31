@@ -13,6 +13,21 @@ module.exports = {
   theme: {
     extend: {},
 
+    fontFamily: {
+      sans: [
+        'Pretendard Variable',
+        'Pretendard',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Apple SD Gothic Neo',
+        'NanumGothic',
+        'Malgun Gothic',
+        'Helvetica Neue',
+        'Arial',
+        'sans-serif',
+      ],
+    },
+
     screens: {
       sm: getPageListWidth(4),
       md: getPageListWidth(5),
