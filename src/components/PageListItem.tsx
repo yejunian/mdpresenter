@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { createElement, Fragment, useMemo } from 'react'
 import rehypeReact from 'rehype-react'
 import { unified } from 'unified'
@@ -6,9 +7,11 @@ import Page from '../core/Page'
 
 type PageListItemProps = {
   page: Page | null
+  isPreview?: boolean
+  isProgram?: boolean
 }
 
-function PageListItem({ page }: PageListItemProps) {
+function PageListItem({ page, isPreview, isProgram }: PageListItemProps) {
   const preview = useMemo(
     () =>
       page
@@ -21,7 +24,16 @@ function PageListItem({ page }: PageListItemProps) {
 
   return (
     <article>
-      <div className="box-content border-4 overflow-hidden aspect-ratio-variable">
+      <div
+        className={clsx(
+          'box-content border-4 bg-black overflow-hidden aspect-ratio-variable',
+          isProgram
+            ? 'border-red-700'
+            : isPreview
+            ? 'border-green-700'
+            : 'border-zinc-600'
+        )}
+      >
         {preview}
       </div>
 
