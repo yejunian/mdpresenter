@@ -6,7 +6,7 @@ function useWebviewWindow(label: string, options?: WindowOptions) {
   const [isProcessing, setProcessing] = useState(false)
   let isLocallyProcessing = isProcessing
 
-  const create = async () => {
+  const create = async (onLoad?: () => void) => {
     if (!webview && !isLocallyProcessing) {
       isLocallyProcessing = true
       setProcessing(true)
@@ -17,6 +17,10 @@ function useWebviewWindow(label: string, options?: WindowOptions) {
       const localWebview = new WebviewWindow(label, options)
 
       localWebview.once(`${label}:load`, () => {
+        if (typeof onLoad === 'function') {
+          onLoad()
+        }
+
         localWebview.show()
       })
 
