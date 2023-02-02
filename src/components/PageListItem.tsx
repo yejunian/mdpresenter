@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { createElement, Fragment, useMemo } from 'react'
-import rehypeReact from 'rehype-react'
-import { unified } from 'unified'
+import { useMemo } from 'react'
+
+import convertHastToReactElements from '../core/convertHastToReactElement'
 
 import Page from '../core/Page'
 
@@ -13,13 +13,8 @@ type PageListItemProps = {
 
 function PageListItem({ page, isPreview, isProgram }: PageListItemProps) {
   const preview = useMemo(
-    () =>
-      page
-        ? unified()
-            .use(rehypeReact, { createElement, Fragment })
-            .stringify(page.contents)
-        : null,
-    [page, page?.contents]
+    () => convertHastToReactElements(page?.contents),
+    [page?.contents]
   )
 
   return (
