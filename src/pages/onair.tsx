@@ -1,9 +1,10 @@
 import { emit, listen, once } from '@tauri-apps/api/event'
+import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
 import Page from '../core/Page'
 import convertHastToReactElements from '../core/convertHastToReactElement'
-import clsx from 'clsx'
+import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 
 function Onair() {
   const [page, setPage] = useState<Page>(null)
@@ -19,6 +20,8 @@ function Onair() {
 
     emit('onair:load')
   }, [])
+
+  useCommonShortcutEmitter()
 
   return (
     <div

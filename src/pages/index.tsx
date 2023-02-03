@@ -9,6 +9,8 @@ import Page from '../core/Page'
 import convertMarkdownToHast from '../core/convertMarkdownToHast'
 import openSingleTextFile from '../core/openSingleTextFile'
 import splitHastRoot from '../core/splitHastRoot'
+import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
+import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
 
 function App() {
@@ -98,6 +100,10 @@ function App() {
       emit(`main:${target}`, page)
     }
   }
+
+  useCommonShortcutEmitter()
+  // TODO - Implement shortcut handlers at proper components
+  useCommonShortcutListener({})
 
   return (
     <div className="break-words break-keep">
