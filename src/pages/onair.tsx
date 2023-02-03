@@ -13,7 +13,7 @@ function Onair() {
       setPage(event.payload)
     })
 
-    listen<Page>('main:cut', (event) => {
+    listen<Page>('main:program', (event) => {
       setPage(event.payload)
     })
 

@@ -1,17 +1,24 @@
 import clsx from 'clsx'
-import { useMemo } from 'react'
-
-import convertHastToReactElements from '../core/convertHastToReactElement'
+import { MouseEvent, useMemo } from 'react'
 
 import Page from '../core/Page'
+import convertHastToReactElements from '../core/convertHastToReactElement'
 
 type PageListItemProps = {
   page: Page | null
   isPreview?: boolean
   isProgram?: boolean
+  onClick?: (event: MouseEvent) => void
+  onDoubleClick?: (event: MouseEvent) => void
 }
 
-function PageListItem({ page, isPreview, isProgram }: PageListItemProps) {
+function PageListItem({
+  page,
+  isPreview,
+  isProgram,
+  onClick,
+  onDoubleClick,
+}: PageListItemProps) {
   const preview = useMemo(
     () => convertHastToReactElements(page?.contents),
     [page?.contents]
@@ -28,6 +35,9 @@ function PageListItem({ page, isPreview, isProgram }: PageListItemProps) {
             ? 'border-green-700'
             : 'border-zinc-600'
         )}
+        onClick={onClick}
+        onDoubleClick={onDoubleClick}
+        data-page={page?.pageNumber}
       >
         {preview}
       </div>

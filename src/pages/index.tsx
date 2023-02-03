@@ -1,9 +1,9 @@
 import { ask } from '@tauri-apps/api/dialog'
-import { emit } from '@tauri-apps/api/event'
+import { emit, listen } from '@tauri-apps/api/event'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
-import PageList from '../components/PageList'
+import PageList, { PageListSelectEventHandler } from '../components/PageList'
 import Playback from '../components/Playback'
 import Page from '../core/Page'
 import convertMarkdownToHast from '../core/convertMarkdownToHast'
@@ -16,8 +16,8 @@ function App() {
   const [fileContents, setFileContents] = useState('')
 
   const [pages, setPages] = useState<Page[]>([])
-  const [previewPageNumber, setPreviewPageNumber] = useState(14)
-  const [programPageNumber, setProgramPageNumber] = useState(11)
+  const [previewPageNumber, setPreviewPageNumber] = useState(2)
+  const [programPageNumber, setProgramPageNumber] = useState(1)
 
   const { webview: onairWindow, create: createOnairWindow } = useWebviewWindow(
     'onair',
@@ -30,6 +30,35 @@ function App() {
       // fullscreen: true,
     }
   )
+
+  useEffect(() => {
+    const unlistenPreview = listen<Page | null>('main:preview', (event) => {
+      const pageNumber = event.payload?.pageNumber
+
+      if (pageNumber > 0 && pageNumber <= pages.length) {
+        setPreviewPageNumber(event.payload.pageNumber)
+      }
+    })
+
+    const unlistenProgram = listen<Page | null>('main:program', (event) => {
+      const pageNumber = event.payload?.pageNumber
+
+      if (pageNumber > 0 && pageNumber <= pages.length) {
+        setProgramPageNumber(event.payload.pageNumber)
+
+        if (pageNumber + 1 <= pages.length) {
+          emit('main:preview', pages[pageNumber])
+        }
+      }
+    })
+
+    return () => {
+      Promise.all([
+        unlistenPreview.then((unlisten) => unlisten()),
+        unlistenProgram.then((unlisten) => unlisten()),
+      ])
+    }
+  }, [pages])
 
   useEffect(() => {
     convertMarkdownToHast(fileContents).then((hastRoot) => {
@@ -56,6 +85,17 @@ function App() {
       createOnairWindow(handleOnairLoad)
     } else if (await ask('송출 창을 닫을까요?', { type: 'warning' })) {
       onairWindow.close()
+    }
+  }
+
+  const handlePageListSelect: PageListSelectEventHandler = (target, page) => {
+    if (!page && target === 'program') {
+      emit('main:program', null)
+      return
+    }
+
+    if (page.pageNumber > 0 && page.pageNumber <= pages.length) {
+      emit(`main:${target}`, page)
     }
   }
 
@@ -98,6 +138,7 @@ function App() {
         pages={pages}
         previewPageNumber={previewPageNumber}
         programPageNumber={programPageNumber}
+        onSelect={handlePageListSelect}
       />
     </div>
   )
