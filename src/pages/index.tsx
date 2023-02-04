@@ -11,6 +11,7 @@ import openSingleTextFile from '../core/openSingleTextFile'
 import splitHastRoot from '../core/splitHastRoot'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
+import usePreviewProgramListener from '../hooks/usePreviewProgramListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
 
 function App() {
@@ -33,36 +34,11 @@ function App() {
     }
   )
 
-  useEffect(() => {
-    const unlistenPreview = listen<Page | null>('main:preview', (event) => {
-      const pageNumber = event.payload?.pageNumber
-
-      if (pageNumber > 0 && pageNumber <= pages.length) {
-        setPreviewPageNumber(event.payload.pageNumber)
-      }
-    })
-
-    const unlistenProgram = listen<Page | null>('main:program', (event) => {
-      const pageNumber = event.payload?.pageNumber
-
-      if (typeof pageNumber !== 'number') {
-        setProgramPageNumber(0)
-      } else if (pageNumber > 0 && pageNumber <= pages.length) {
-        setProgramPageNumber(event.payload.pageNumber)
-
-        if (pageNumber + 1 <= pages.length) {
-          emit('main:preview', pages[pageNumber])
-        }
-      }
-    })
-
-    return () => {
-      Promise.all([
-        unlistenPreview.then((unlisten) => unlisten()),
-        unlistenProgram.then((unlisten) => unlisten()),
-      ])
-    }
-  }, [pages])
+  usePreviewProgramListener({
+    pages,
+    setPreviewPageNumber,
+    setProgramPageNumber,
+  })
 
   useEffect(() => {
     convertMarkdownToHast(fileContents).then((hastRoot) => {

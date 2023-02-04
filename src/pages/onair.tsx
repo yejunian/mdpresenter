@@ -14,11 +14,15 @@ function Onair() {
       setPage(event.payload)
     })
 
-    listen<Page>('main:program', (event) => {
+    const unlistenProgram = listen<Page>('main:program', (event) => {
       setPage(event.payload)
     })
 
     emit('onair:load')
+
+    return () => {
+      unlistenProgram.then((unlisten) => unlisten())
+    }
   }, [])
 
   useCommonShortcutEmitter()
