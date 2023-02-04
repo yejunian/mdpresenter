@@ -18,8 +18,8 @@ function App() {
   const [fileContents, setFileContents] = useState('')
 
   const [pages, setPages] = useState<Page[]>([])
-  const [previewPageNumber, setPreviewPageNumber] = useState(2)
-  const [programPageNumber, setProgramPageNumber] = useState(1)
+  const [previewPageNumber, setPreviewPageNumber] = useState(1)
+  const [programPageNumber, setProgramPageNumber] = useState(0)
 
   const { webview: onairWindow, create: createOnairWindow } = useWebviewWindow(
     'onair',
@@ -45,7 +45,9 @@ function App() {
     const unlistenProgram = listen<Page | null>('main:program', (event) => {
       const pageNumber = event.payload?.pageNumber
 
-      if (pageNumber > 0 && pageNumber <= pages.length) {
+      if (typeof pageNumber !== 'number') {
+        setProgramPageNumber(0)
+      } else if (pageNumber > 0 && pageNumber <= pages.length) {
         setProgramPageNumber(event.payload.pageNumber)
 
         if (pageNumber + 1 <= pages.length) {
@@ -67,6 +69,25 @@ function App() {
       setPages(splitHastRoot(hastRoot))
     })
   }, [fileContents])
+
+  const handlePresentationClear = (effect?: string) => {
+    emit('main:program', null)
+  }
+
+  const handlePresentationCut = (effect?: string) => {
+    emit('main:program', pages[previewPageNumber - 1])
+  }
+
+  const handlePresentationPreviewChange = (
+    pageNumber: number,
+    relative?: boolean
+  ) => {
+    if (relative) {
+      emit('main:preview', pages[previewPageNumber + pageNumber - 1])
+    } else {
+      emit('main:preview', pages[pageNumber - 1])
+    }
+  }
 
   const handleOpenClick = async () => {
     try {
@@ -92,7 +113,7 @@ function App() {
 
   const handlePageListSelect: PageListSelectEventHandler = (target, page) => {
     if (!page && target === 'program') {
-      emit('main:program', null)
+      handlePresentationClear()
       return
     }
 
@@ -138,6 +159,9 @@ function App() {
       <Playback
         preview={pages[previewPageNumber - 1] ?? null}
         program={pages[programPageNumber - 1] ?? null}
+        onClear={handlePresentationClear}
+        onCut={handlePresentationCut}
+        onPreviewChange={handlePresentationPreviewChange}
       />
 
       <PageList
