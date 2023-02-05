@@ -8,29 +8,22 @@ import Playback from '../components/Playback'
 import Toolbox from '../components/Toolbox'
 import Page from '../core/Page'
 import convertMarkdownToHast from '../core/convertMarkdownToHast'
-import openSingleTextFile, {
-  loadSingleTextFile,
-} from '../core/openSingleTextFile'
 import splitHastRoot from '../core/splitHastRoot'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
+import useFileOpener from '../hooks/useFileOpener'
 import usePreviewProgramListener from '../hooks/usePreviewProgramListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
 
-const dateTimeFormat = new Intl.DateTimeFormat('ko-KR', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-  hour12: false,
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
-})
-
 function App() {
-  const [fileName, setFileName] = useState('')
-  const [fileContents, setFileContents] = useState('')
-  const [fileLoadTime, setFileLoadTime] = useState('')
+  const {
+    isFileDropHovering,
+    selectFile,
+    loadFile,
+    path: filePath,
+    contents: fileContents,
+    loadTime: fileLoadTime,
+  } = useFileOpener()
 
   const [pages, setPages] = useState<Page[]>([])
   const [previewPageNumber, setPreviewPageNumber] = useState(1)
@@ -79,25 +72,8 @@ function App() {
     }
   }
 
-  const handleFileOpenClick = async () => {
-    try {
-      const { path, contents } = await openSingleTextFile()
-      setFileName(path)
-      setFileContents(contents)
-      setFileLoadTime(dateTimeFormat.format(new Date()))
-    } catch (error) {
-      // No operation
-    }
-  }
-
-  const handleFileReloadClick = async () => {
-    try {
-      setFileContents(await loadSingleTextFile(fileName))
-      setFileLoadTime(dateTimeFormat.format(new Date()))
-    } catch (error) {
-      // No operation
-    }
-  }
+  const handleFileOpenClick = () => selectFile()
+  const handleFileReloadClick = () => loadFile()
 
   const handleOnairLoad = () => {
     emit('main:init-onair', pages[programPageNumber - 1])
@@ -136,7 +112,7 @@ function App() {
         )}
       >
         <Toolbox
-          fileName={fileName}
+          filePath={filePath}
           fileLoadTime={fileLoadTime}
           onFileOpenClick={handleFileOpenClick}
           onFileReloadClick={handleFileReloadClick}
@@ -168,6 +144,25 @@ function App() {
         programPageNumber={programPageNumber}
         onSelect={handlePageListSelect}
       />
+
+      <div
+        className={clsx(
+          'fixed inset-0',
+          'p-3 w-full h-screen bg-zinc-800 bg-opacity-60 backdrop-blur-sm',
+          isFileDropHovering || 'hidden'
+        )}
+      >
+        <div
+          className={clsx(
+            'flex items-center justify-center',
+            'border-4 border-dashed border-zinc-500 rounded-3xl w-full h-full'
+          )}
+        >
+          <div className="mb-6 font-normal text-6xl text-zinc-400">
+            여기에 놓아서 파일 열기
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

@@ -38,10 +38,8 @@ function usePreviewProgramListener({
     })
 
     return () => {
-      Promise.all([
-        unlistenPreview.then((unlisten) => unlisten()),
-        unlistenProgram.then((unlisten) => unlisten()),
-      ])
+      unlistenPreview.then((unlisten) => unlisten())
+      unlistenProgram.then((unlisten) => unlisten())
     }
   }, [pages])
 }

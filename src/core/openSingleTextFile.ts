@@ -1,16 +1,11 @@
 import { open } from '@tauri-apps/api/dialog'
 import { readTextFile } from '@tauri-apps/api/fs'
 
-type FileInfo = {
-  path: string
-  contents: string
-}
-
 export async function loadSingleTextFile(path: string): Promise<string> {
   return await readTextFile(path)
 }
 
-async function openSingleTextFile(): Promise<FileInfo | undefined> {
+export async function selectSingleTextFile(): Promise<string> {
   const selected = await open({
     filters: [
       {
@@ -40,10 +35,5 @@ async function openSingleTextFile(): Promise<FileInfo | undefined> {
     throw new Error('Unreachable block')
   }
 
-  return {
-    path: selected,
-    contents: await loadSingleTextFile(selected),
-  }
+  return selected
 }
-
-export default openSingleTextFile
