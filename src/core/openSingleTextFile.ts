@@ -6,6 +6,10 @@ type FileInfo = {
   contents: string
 }
 
+export async function loadSingleTextFile(path: string): Promise<string> {
+  return await readTextFile(path)
+}
+
 async function openSingleTextFile(): Promise<FileInfo | undefined> {
   const selected = await open({
     filters: [
@@ -38,7 +42,7 @@ async function openSingleTextFile(): Promise<FileInfo | undefined> {
 
   return {
     path: selected,
-    contents: await readTextFile(selected),
+    contents: await loadSingleTextFile(selected),
   }
 }
 

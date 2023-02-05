@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { MouseEvent } from 'react'
 
 import Page from '../core/Page'
@@ -5,6 +6,7 @@ import Page from '../core/Page'
 import PageListItem from './PageListItem'
 
 type PageListProps = {
+  className?: string
   pages: Page[]
   previewPageNumber?: number
   programPageNumber?: number
@@ -17,6 +19,7 @@ export type PageListSelectEventHandler = (
 ) => void
 
 function PageList({
+  className,
   pages,
   previewPageNumber,
   programPageNumber,
@@ -32,25 +35,36 @@ function PageList({
     }
 
   return (
-    <section className="grid grid-cols-4 gap-6 mx-auto p-6 w-[1176px]">
-      {pages.length === 0
-        ? '(no contents)'
-        : pages.map((page, index) => (
-            <PageListItem
-              key={index}
-              page={page}
-              isPreview={
-                typeof previewPageNumber === 'number' &&
-                index === previewPageNumber - 1
-              }
-              isProgram={
-                typeof programPageNumber === 'number' &&
-                index === programPageNumber - 1
-              }
-              onClick={handlePageSelectWith('preview')}
-              onDoubleClick={handlePageSelectWith('program')}
-            />
-          ))}
+    <section className={clsx(className, 'grid grid-cols-4 gap-6 p-6')}>
+      {pages.length === 0 ? (
+        <div
+          className={clsx(
+            'col-span-4 self-center justify-self-center mb-12',
+            'leading-relaxed text-2xl font-medium text-zinc-500'
+          )}
+        >
+          불러올 <code className="text-xl">*.md</code> 파일을 여기로 끌어오거나
+          <br />
+          위의 ‘파일 선택’을 누르고 불러올 파일을 선택하세요.
+        </div>
+      ) : (
+        pages.map((page, index) => (
+          <PageListItem
+            key={index}
+            page={page}
+            isPreview={
+              typeof previewPageNumber === 'number' &&
+              index === previewPageNumber - 1
+            }
+            isProgram={
+              typeof programPageNumber === 'number' &&
+              index === programPageNumber - 1
+            }
+            onClick={handlePageSelectWith('preview')}
+            onDoubleClick={handlePageSelectWith('program')}
+          />
+        ))
+      )}
     </section>
   )
 }

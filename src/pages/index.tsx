@@ -1,22 +1,36 @@
 import { ask } from '@tauri-apps/api/dialog'
-import { emit, listen } from '@tauri-apps/api/event'
+import { emit } from '@tauri-apps/api/event'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
 import PageList, { PageListSelectEventHandler } from '../components/PageList'
 import Playback from '../components/Playback'
+import Toolbox from '../components/Toolbox'
 import Page from '../core/Page'
 import convertMarkdownToHast from '../core/convertMarkdownToHast'
-import openSingleTextFile from '../core/openSingleTextFile'
+import openSingleTextFile, {
+  loadSingleTextFile,
+} from '../core/openSingleTextFile'
 import splitHastRoot from '../core/splitHastRoot'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
 import usePreviewProgramListener from '../hooks/usePreviewProgramListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
 
+const dateTimeFormat = new Intl.DateTimeFormat('ko-KR', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour12: false,
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+})
+
 function App() {
   const [fileName, setFileName] = useState('')
   const [fileContents, setFileContents] = useState('')
+  const [fileLoadTime, setFileLoadTime] = useState('')
 
   const [pages, setPages] = useState<Page[]>([])
   const [previewPageNumber, setPreviewPageNumber] = useState(1)
@@ -65,11 +79,21 @@ function App() {
     }
   }
 
-  const handleOpenClick = async () => {
+  const handleFileOpenClick = async () => {
     try {
       const { path, contents } = await openSingleTextFile()
       setFileName(path)
       setFileContents(contents)
+      setFileLoadTime(dateTimeFormat.format(new Date()))
+    } catch (error) {
+      // No operation
+    }
+  }
+
+  const handleFileReloadClick = async () => {
+    try {
+      setFileContents(await loadSingleTextFile(fileName))
+      setFileLoadTime(dateTimeFormat.format(new Date()))
     } catch (error) {
       // No operation
     }
@@ -103,44 +127,42 @@ function App() {
   useCommonShortcutListener({})
 
   return (
-    <div className="break-words break-keep">
-      <h1 className="mb-4 font-bold">MD Presenter</h1>
+    <div className="flex flex-col min-h-screen break-words break-keep">
+      <div
+        className={clsx(
+          'sticky top-0',
+          'grid grid-cols-8 gap-6',
+          'mx-auto p-6 pb-0 w-[1176px] bg-zinc-800'
+        )}
+      >
+        <Toolbox
+          fileName={fileName}
+          fileLoadTime={fileLoadTime}
+          onFileOpenClick={handleFileOpenClick}
+          onFileReloadClick={handleFileReloadClick}
+        />
 
-      <div className="my-4">
-        <button
-          className="rounded px-4 py-1 bg-blue-600 text-white font-bold"
-          type="button"
-          onClick={handleOpenClick}
-        >
-          Open
-        </button>{' '}
-        <code className="ml-4 text-sm">{fileName || '(not selected)'}</code>
-      </div>
+        <Playback
+          className="col-span-5"
+          preview={pages[previewPageNumber - 1] ?? null}
+          program={pages[programPageNumber - 1] ?? null}
+          isOnairOpen={onairWindow ? true : false}
+          onOnairClick={handleOnairClick}
+          onClear={handlePresentationClear}
+          onCut={handlePresentationCut}
+          onPreviewChange={handlePresentationPreviewChange}
+        />
 
-      <div className="my-4">
-        <button
+        <hr
           className={clsx(
-            'border-2 rounded px-4 py-1 font-bold',
-            onairWindow
-              ? 'border-transparent bg-red-700 text-white'
-              : 'border-green-700 text-zinc-300'
+            'mx-auto border-t-2 border-t-zinc-600 w-[1128px]',
+            'shadow-sm shadow-zinc-900'
           )}
-          type="button"
-          onClick={handleOnairClick}
-        >
-          ON AIR
-        </button>
+        />
       </div>
-
-      <Playback
-        preview={pages[previewPageNumber - 1] ?? null}
-        program={pages[programPageNumber - 1] ?? null}
-        onClear={handlePresentationClear}
-        onCut={handlePresentationCut}
-        onPreviewChange={handlePresentationPreviewChange}
-      />
 
       <PageList
+        className="grow mx-auto w-[1176px]"
         pages={pages}
         previewPageNumber={previewPageNumber}
         programPageNumber={programPageNumber}

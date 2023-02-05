@@ -78,7 +78,10 @@ function PlaybackInput({
   return (
     <div
       className={clsx(
-        'absolute left-10 bottom-0 flex items-center gap-2 px-2 py-1 rounded bg-zinc-700 bg-opacity-90',
+        'absolute left-10 bottom-0',
+        'flex items-center gap-2',
+        'px-2 py-1 rounded bg-zinc-700 bg-opacity-90',
+        'tabular-nums ex-high-legibility',
         !input ? 'hidden' : null
       )}
     >

@@ -5,19 +5,29 @@
 @layer base {
   html {
     @apply bg-zinc-800 text-zinc-300;
+
+    --font-feature-default: "calt", "case";
+
+    font-feature-settings: var(--font-feature-default, initial);
+
+    overflow-y: scroll;
   }
 }
 
 @layer utilities {
   /* TODO - Manipulate aspect ratio by overriding CSS variables */
-  .aspect-ratio-variable {
+  .ex-aspect-ratio-variable {
     aspect-ratio: var(--aspect-ratio-presentation, 16 / 9);
   }
 
-  .line-clamp-2 {
+  .ex-line-clamp-2 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
+  }
+
+  .ex-high-legibility {
+    font-feature-settings: "ss06", var(--font-feature-default);
   }
 }
