@@ -36,7 +36,17 @@ function PageListItem({
             ? 'border-red-700'
             : isPreview
             ? 'border-green-700'
-            : 'border-zinc-600'
+            : 'border-zinc-600',
+          onClick || onDoubleClick
+            ? clsx(
+                'cursor-pointer',
+                isProgram
+                  ? 'hover:border-red-600'
+                  : isPreview
+                  ? 'hover:border-green-600'
+                  : 'hover:border-zinc-500'
+              )
+            : null
         )}
         onClick={onClick}
         onDoubleClick={onDoubleClick}
