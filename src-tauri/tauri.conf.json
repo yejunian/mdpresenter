@@ -32,9 +32,7 @@
         "close": true,
         "create": true,
         "setAlwaysOnTop": true,
-        "setDecorations": true,
-        "setFullscreen": true,
-        "setTitle": true,
+        "setFocus": true,
         "show": true
       }
     },

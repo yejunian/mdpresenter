@@ -12,6 +12,7 @@ import splitHastRoot from '../core/splitHastRoot'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
 import useFileOpener from '../hooks/useFileOpener'
+import useMonitor from '../hooks/useMonitor'
 import usePreviewProgramListener from '../hooks/usePreviewProgramListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
 
@@ -25,21 +26,14 @@ function App() {
     loadTime: fileLoadTime,
   } = useFileOpener()
 
+  const { monitors, primaryIndex: primaryMonitorIndex } = useMonitor()
+
   const [pages, setPages] = useState<Page[]>([])
   const [previewPageNumber, setPreviewPageNumber] = useState(1)
   const [programPageNumber, setProgramPageNumber] = useState(0)
 
-  const { webview: onairWindow, create: createOnairWindow } = useWebviewWindow(
-    'onair',
-    {
-      url: '/onair',
-      title: '송출 - MD Presenter',
-      visible: false,
-      // alwaysOnTop: true,
-      // decorations: false,
-      // fullscreen: true,
-    }
-  )
+  const { webview: onairWindow, create: createOnairWindow } =
+    useWebviewWindow('onair')
 
   usePreviewProgramListener({
     pages,
@@ -79,13 +73,36 @@ function App() {
     emit('main:init-onair', pages[programPageNumber - 1])
   }
 
-  const handleOnairClick = async () => {
+  const toggleOnair = async (withShortcut?: boolean) => {
     if (!onairWindow) {
-      createOnairWindow(handleOnairLoad)
-    } else if (await ask('송출 창을 닫을까요?', { type: 'warning' })) {
+      const { x, y } =
+        monitors[(primaryMonitorIndex + 1) % monitors.length].position
+      createOnairWindow(
+        {
+          x,
+          y,
+          url: '/onair',
+          title: '송출 - MD Presenter',
+          visible: false,
+          alwaysOnTop: true,
+          decorations: false,
+          fileDropEnabled: false,
+          fullscreen: true,
+          resizable: false,
+          width: 640,
+          height: 360,
+        },
+        handleOnairLoad
+      )
+    } else if (
+      withShortcut ||
+      (await ask('송출 창을 닫을까요?', { type: 'warning' }))
+    ) {
       onairWindow.close()
     }
   }
+
+  const handleOnairClick = async () => toggleOnair(false)
 
   const handlePageListSelect: PageListSelectEventHandler = (target, page) => {
     if (!page && target === 'program') {
@@ -99,8 +116,20 @@ function App() {
   }
 
   useCommonShortcutEmitter()
-  // TODO - Implement shortcut handlers at proper components
-  useCommonShortcutListener({})
+  useCommonShortcutListener({
+    file: (subCommand) => {
+      switch (subCommand) {
+        case 'open':
+          selectFile()
+          break
+
+        case 'reload':
+          loadFile()
+          break
+      }
+    },
+    onair: () => toggleOnair(true),
+  })
 
   return (
     <div className="flex flex-col min-h-screen break-words break-keep">

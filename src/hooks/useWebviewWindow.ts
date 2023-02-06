@@ -1,27 +1,29 @@
 import { WebviewWindow, WindowOptions } from '@tauri-apps/api/window'
 import { useState } from 'react'
 
-function useWebviewWindow(label: string, options?: WindowOptions) {
+function useWebviewWindow(label: string) {
   const [webview, setWebview] = useState<WebviewWindow>(null)
   const [isProcessing, setProcessing] = useState(false)
   let isLocallyProcessing = isProcessing
 
-  const create = async (onLoad?: () => void) => {
+  const create = async (options?: WindowOptions, onLoad?: () => void) => {
     if (!webview && !isLocallyProcessing) {
       isLocallyProcessing = true
       setProcessing(true)
 
-      const WebviewWindow = (await import('@tauri-apps/api/window'))
-        .WebviewWindow
+      const { WebviewWindow, appWindow } = await import(
+        '@tauri-apps/api/window'
+      )
 
       const localWebview = new WebviewWindow(label, options)
 
-      localWebview.once(`${label}:load`, () => {
+      localWebview.once(`${label}:load`, async () => {
         if (typeof onLoad === 'function') {
           onLoad()
         }
 
-        localWebview.show()
+        await localWebview.show()
+        appWindow.setFocus()
       })
 
       localWebview.once('tauri://destroyed', () => {
