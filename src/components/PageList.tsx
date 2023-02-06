@@ -35,15 +35,21 @@ function PageList({
     }
 
   return (
-    <section className={clsx(className, 'grid grid-cols-4 gap-6 p-6')}>
+    <section
+      className={clsx(
+        className,
+        'grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-6 p-6',
+        pages.length > 0 ? 'auto-rows-min' : null
+      )}
+    >
       {pages.length === 0 ? (
         <div
           className={clsx(
-            'col-span-4 self-center justify-self-center mb-12',
+            'col-span-full self-center justify-self-center mb-12',
             'leading-relaxed text-2xl font-medium text-zinc-500'
           )}
         >
-          불러올 <code className="text-xl">*.md</code> 파일을 여기로 끌어오거나
+          불러올 <small><code>*.md</code></small> 파일을 여기로 끌어오거나
           <br />
           위의 ‘파일 선택’을 누르고 불러올 파일을 선택하세요.
         </div>

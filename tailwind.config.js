@@ -2,8 +2,8 @@
  * @param {number} columnCount
  * @returns {string}
  */
-function getPageListWidth(columnCount) {
-  return `${columnCount * 264 + (columnCount + 1) * 24}px`
+function getBreakpoint(columnCount) {
+  return `${columnCount * 264 + (columnCount + 1) * 24 + 24}px`
 }
 
 /** @type {import('tailwindcss').Config} */
@@ -29,9 +29,9 @@ module.exports = {
     },
 
     screens: {
-      sm: getPageListWidth(4),
-      md: getPageListWidth(5),
-      lg: getPageListWidth(6),
+      sm: getBreakpoint(4),
+      md: getBreakpoint(5),
+      lg: getBreakpoint(6),
     },
   },
 

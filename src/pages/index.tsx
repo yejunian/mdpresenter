@@ -107,8 +107,8 @@ function App() {
       <div
         className={clsx(
           'sticky top-0',
-          'grid grid-cols-8 gap-6',
-          'mx-auto p-6 pb-0 w-[1176px] bg-zinc-800'
+          'grid grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-6',
+          'mx-auto p-6 pb-0 w-[1176px] md:w-[1464px] lg:w-[1752px] bg-zinc-800'
         )}
       >
         <Toolbox
@@ -119,7 +119,7 @@ function App() {
         />
 
         <Playback
-          className="col-span-5"
+          className="col-span-5 col-start-4 md:col-start-6 lg:col-start-8"
           preview={pages[previewPageNumber - 1] ?? null}
           program={pages[programPageNumber - 1] ?? null}
           isOnairOpen={onairWindow ? true : false}
@@ -131,14 +131,14 @@ function App() {
 
         <hr
           className={clsx(
-            'mx-auto border-t-2 border-t-zinc-600 w-[1128px]',
+            'col-span-full mx-auto border-t-2 border-t-zinc-600 w-full',
             'shadow-sm shadow-zinc-900'
           )}
         />
       </div>
 
       <PageList
-        className="grow mx-auto w-[1176px]"
+        className="grow mx-auto w-[1176px] md:w-[1464px] lg:w-[1752px]"
         pages={pages}
         previewPageNumber={previewPageNumber}
         programPageNumber={programPageNumber}
