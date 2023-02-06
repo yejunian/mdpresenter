@@ -26,6 +26,9 @@ function Playback({
 }: PlaybackProps) {
   const isPlaybackInputRenderable = onClear && onCut && onPreviewChange
 
+  const handleCutClick = () => onCut()
+  const handleClearClick = () => onClear()
+
   return (
     <section className={clsx(className, 'grid grid-cols-5 gap-6')}>
       <div className="col-span-1 flex flex-col gap-2">
@@ -46,6 +49,8 @@ function Playback({
           className={clsx(
             'border border-zinc-600 hover:border-zinc-500 rounded p-1 text-xs'
           )}
+          type="button"
+          onClick={handleCutClick}
         >
           Cut
         </button>
@@ -53,6 +58,8 @@ function Playback({
           className={clsx(
             'border border-zinc-600 hover:border-zinc-500 rounded p-1 text-xs'
           )}
+          type="button"
+          onClick={handleClearClick}
         >
           Clear
         </button>
