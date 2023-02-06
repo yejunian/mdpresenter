@@ -51,9 +51,15 @@ function useFileOpener() {
   }, [path])
 
   useEffect(() => {
-    const unlistenFileDropHoverEvent = listen('tauri://file-drop-hover', () =>
-      setFileDropHovering(true)
+    const unlistenFileDropHoverEvent = listen<string[]>(
+      'tauri://file-drop-hover',
+      ({ payload }) => {
+        if (payload?.length === 1) {
+          setFileDropHovering(true)
+        }
+      }
     )
+
     const unlistenFileDropCancelledEvent = listen(
       'tauri://file-drop-cancelled',
       () => setFileDropHovering(false)
