@@ -132,10 +132,10 @@ function App() {
   })
 
   return (
-    <div className="flex flex-col min-h-screen break-words break-keep">
+    <div className="flex flex-col min-h-screen">
       <div
         className={clsx(
-          'sticky top-0',
+          'sticky top-0 z-10',
           'grid grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-6',
           'mx-auto p-6 pb-0 w-[1176px] md:w-[1464px] lg:w-[1752px] bg-zinc-800'
         )}

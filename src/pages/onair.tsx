@@ -31,10 +31,8 @@ function Onair() {
   return (
     <div
       className={clsx(
-        'absolute inset-0 overflow-hidden',
-        'flex justify-center items-center',
-        'px-[5vw] py-[5vh] w-full h-full bg-black',
-        'leading-snug text-center font-semibold text-[8vh] text-white',
+        'presentation',
+        'absolute inset-0 px-[5vw] py-[5vw] text-[7.5vh]',
         'cursor-none select-none'
       )}
     >

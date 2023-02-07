@@ -5,12 +5,104 @@
 @layer base {
   html {
     @apply bg-zinc-800 text-zinc-300;
+    @apply break-words break-keep;
 
     --font-feature-default: "calt", "case";
 
     font-feature-settings: var(--font-feature-default, initial);
+  }
 
-    overflow-y: scroll;
+  .presentation {
+    @apply flex justify-center items-center;
+    @apply w-full h-full bg-black;
+    @apply leading-snug text-center font-semibold text-white;
+    @apply overflow-hidden;
+  }
+
+  .presentation :is(h1, h2, h3, h4, h5, h6) {
+    @apply font-extrabold text-pink-300;
+  }
+  .presentation h1 {
+    @apply text-[1.25em];
+  }
+  .presentation h2 {
+    @apply text-[1.125em];
+  }
+  .presentation h3 {
+    @apply text-[1em];
+  }
+  .presentation h4 {
+    @apply text-[0.875em];
+  }
+  .presentation h5 {
+    @apply text-[0.75em];
+  }
+  .presentation h6 {
+    @apply text-[0.625em];
+  }
+  .presentation :is(b, strong) {
+    @apply font-black;
+  }
+  .presentation a {
+    @apply ex-high-legibility;
+    /* @apply cursor-none pointer-events-none; */
+    @apply pointer-events-none;
+  }
+  .presentation pre {
+    @apply text-left whitespace-pre-wrap;
+  }
+  .presentation code {
+    @apply text-[0.875em];
+  }
+  .presentation img {
+    /* @apply absolute inset-0 w-full h-full object-contain text-left; */
+    @apply w-full h-full object-contain text-left;
+  }
+  .presentation ins {
+    @apply underline;
+  }
+  .presentation :is(del, s) {
+    @apply decoration-from-font opacity-75;
+  }
+  .presentation kbd {
+    @apply border-t-[0.05em] border-b-[0.2em] border-x-[0.1em] rounded-[0.2em];
+    @apply border-t-neutral-600 border-l-neutral-600;
+    @apply border-r-neutral-600 border-b-neutral-700;
+    @apply px-[0.2em] bg-neutral-900 text-[0.875em] align-text-bottom;
+  }
+  .presentation :is(ol, ul) {
+    @apply space-y-[0.125em] list-outside pl-[2em] text-left text-[0.875em];
+  }
+  .presentation :is(ol, ul) :where(ol, ul) {
+    @apply text-[1em];
+  }
+  .presentation ol {
+    @apply list-decimal;
+  }
+  .presentation ul {
+    @apply list-disc;
+  }
+  .presentation table {
+    @apply text-[0.75em];
+  }
+  .presentation thead {
+    @apply border-b-[0.1em] border-neutral-500;
+  }
+  .presentation tfoot {
+    @apply border-t-[0.1em] border-neutral-500;
+  }
+  .presentation :is(th, td) {
+    @apply px-[0.5em];
+  }
+  .presentation :is(blockquote, div) {
+    @apply space-y-[0.375em];
+  }
+  .presentation mark {
+    @apply mx-[-0.05em] rounded-[0.1em] px-[0.05em];
+    @apply bg-yellow-500 bg-opacity-40 text-white;
+  }
+  .presentation small {
+    @apply text-[0.875em];
   }
 }
 

@@ -28,10 +28,8 @@ function PageListItem({
     <article>
       <div
         className={clsx(
-          'flex justify-center items-center',
-          'box-content border-4 bg-black',
-          'overflow-hidden ex-aspect-ratio-variable',
-          'font-semibold text-white text-center text-sm leading-snug',
+          'flex items-center justify-center',
+          'box-content border-4 w-64 h-36 bg-zinc-600',
           isProgram
             ? 'border-red-700'
             : isPreview
@@ -52,7 +50,17 @@ function PageListItem({
         onDoubleClick={onDoubleClick}
         data-page={page?.pageNumber}
       >
-        {preview}
+        <div className="h-full overflow-hidden ex-aspect-ratio-variable">
+          <div
+            className={clsx(
+              'presentation',
+              'px-[25.6px] py-[14.4px] text-[21.6px] w-[200%] h-[200%]',
+              'scale-50 origin-top-left'
+            )}
+          >
+            {preview}
+          </div>
+        </div>
       </div>
 
       <div className="flex gap-0 box-content mt-2 text-sm leading-4">

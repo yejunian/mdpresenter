@@ -26,6 +26,20 @@ module.exports = {
         'Arial',
         'sans-serif',
       ],
+      mono: [
+        'Cascadia Code',
+        'Cascadia Mono',
+        'Menlo',
+        'Consolas',
+        'Pretendard Variable',
+        'Pretendard',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Apple SD Gothic Neo',
+        'NanumGothic',
+        'Malgun Gothic',
+        'sans-serif'
+      ]
     },
 
     screens: {
