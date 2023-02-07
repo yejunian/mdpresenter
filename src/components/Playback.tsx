@@ -34,7 +34,7 @@ function Playback({
       <div className="col-span-1 flex flex-col gap-2">
         <button
           className={clsx(
-            'border-2 rounded p-1 font-semibold text-sm',
+            'border-2 rounded p-1 bg-zinc-800 font-semibold text-sm',
             isOnairOpen
               ? 'border-transparent bg-red-700 hover:bg-red-600 text-white'
               : 'border-green-700 hover:border-green-600 text-zinc-300'
@@ -47,7 +47,8 @@ function Playback({
         <hr className="border-none" />
         <button
           className={clsx(
-            'border border-zinc-600 hover:border-zinc-500 rounded p-1 text-xs'
+            'border border-zinc-600 hover:border-zinc-500 rounded',
+            'p-1 bg-zinc-800 text-xs'
           )}
           type="button"
           onClick={handleCutClick}
@@ -56,7 +57,8 @@ function Playback({
         </button>
         <button
           className={clsx(
-            'border border-zinc-600 hover:border-zinc-500 rounded p-1 text-xs'
+            'border border-zinc-600 hover:border-zinc-500 rounded',
+            'p-1 bg-zinc-800 text-xs'
           )}
           type="button"
           onClick={handleClearClick}

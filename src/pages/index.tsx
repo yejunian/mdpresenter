@@ -137,7 +137,8 @@ function App() {
         className={clsx(
           'sticky top-0 z-10',
           'grid grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-6',
-          'mx-auto p-6 pb-0 w-[1176px] md:w-[1464px] lg:w-[1752px] bg-zinc-800'
+          'mx-auto p-6 pb-0 w-[1176px] md:w-[1464px] lg:w-[1752px]',
+          'bg-zinc-800 bg-opacity-60 backdrop-blur-sm'
         )}
       >
         <Toolbox

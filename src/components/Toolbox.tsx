@@ -19,7 +19,7 @@ function Toolbox({
         className={clsx(
           'col-span-3 border rounded p-1 text-sm',
           filePath
-            ? 'border-zinc-600 hover:border-zinc-500'
+            ? 'border-zinc-600 hover:border-zinc-500 bg-zinc-800'
             : clsx(
                 'border-blue-600 hover:border-blue-500',
                 'bg-blue-600 hover:bg-blue-500 text-white font-bold'
@@ -33,8 +33,8 @@ function Toolbox({
       <button
         className={clsx(
           'col-span-3',
-          'border border-zinc-600 hover:border-zinc-500 rounded p-1',
-          'text-sm'
+          'border border-zinc-600 hover:border-zinc-500 rounded',
+          'p-1 bg-zinc-800 text-sm'
         )}
         type="button"
         onClick={onFileReloadClick}
