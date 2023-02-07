@@ -77,11 +77,13 @@
     },
     "windows": [
       {
-        "fullscreen": false,
-        "height": 800,
-        "resizable": true,
         "title": "MD Presenter",
-        "width": 1280
+        "width": 1280,
+        "height": 960,
+        "minHeight": 680,
+        "minWidth": 1200,
+        "fullscreen": false,
+        "resizable": true
       }
     ]
   }
