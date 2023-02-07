@@ -1,10 +1,4 @@
-/**
- * @param {number} columnCount
- * @returns {string}
- */
-function getBreakpoint(columnCount) {
-  return `${columnCount * 264 + (columnCount + 1) * 24 + 24}px`
-}
+const { getBreakpointByColumns } = require('./src/core/getBreakpointByColumns')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -38,14 +32,14 @@ module.exports = {
         'Apple SD Gothic Neo',
         'NanumGothic',
         'Malgun Gothic',
-        'sans-serif'
-      ]
+        'sans-serif',
+      ],
     },
 
     screens: {
-      sm: getBreakpoint(4),
-      md: getBreakpoint(5),
-      lg: getBreakpoint(6),
+      sm: `${getBreakpointByColumns(4)}px`,
+      md: `${getBreakpointByColumns(5)}px`,
+      lg: `${getBreakpointByColumns(6)}px`,
     },
   },
 
