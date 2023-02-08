@@ -90,7 +90,7 @@ function PageListItem({
           </div>
         </div>
         <div
-          className="overflow-hidden ex-line-clamp-2"
+          className="font-medium whitespace-pre-wrap overflow-hidden ex-line-clamp-2"
           title={page?.note || undefined}
         >
           {page?.note || null}

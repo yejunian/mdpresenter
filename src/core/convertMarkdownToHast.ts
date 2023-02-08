@@ -14,6 +14,7 @@ const sanitizationSchema: typeof defaultSchema = {
     ...defaultSchema.attributes,
     '*': [...(defaultSchema.attributes['*'] ?? []), ['className']],
   },
+  allowComments: true,
 }
 
 async function convertMarkdownToHast(markdown: string): Promise<Root> {
