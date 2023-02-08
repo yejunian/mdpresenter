@@ -1,7 +1,7 @@
 import { ask } from '@tauri-apps/api/dialog'
 import { emit } from '@tauri-apps/api/event'
 import clsx from 'clsx'
-import { CSSProperties, useEffect, useState } from 'react'
+import { CSSProperties, FormEvent, useEffect, useState } from 'react'
 
 import PageList, { PageListSelectEventHandler } from '../components/PageList'
 import Playback from '../components/Playback'
@@ -13,7 +13,7 @@ import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
 import useFileOpener from '../hooks/useFileOpener'
 import useMonitor from '../hooks/useMonitor'
-import usePreviewProgramListener from '../hooks/usePreviewProgramListener'
+import usePresentationListener from '../hooks/usePresentationListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
 
 const appName = 'MD Presenter'
@@ -33,17 +33,11 @@ function App() {
   const [monitorRatio, setMonitorRatio] = useState('16 / 9')
 
   const [pages, setPages] = useState<Page[]>([])
-  const [previewPageNumber, setPreviewPageNumber] = useState(1)
-  const [programPageNumber, setProgramPageNumber] = useState(0)
+  const { previewPageNumber, programPageNumber, fontSize } =
+    usePresentationListener(pages)
 
   const { webview: onairWindow, create: createOnairWindow } =
     useWebviewWindow('onair')
-
-  usePreviewProgramListener({
-    pages,
-    setPreviewPageNumber,
-    setProgramPageNumber,
-  })
 
   useEffect(() => {
     Promise.all([
@@ -94,6 +88,12 @@ function App() {
 
   const handleFileOpenClick = () => selectFile()
   const handleFileReloadClick = () => loadFile()
+
+  const handleFontSizeInput = (event: FormEvent<HTMLInputElement>) => {
+    if (event.currentTarget.checkValidity()) {
+      emit('main:config', { fontSize: event.currentTarget.valueAsNumber })
+    }
+  }
 
   const handleOnairLoad = () => {
     emit('main:init-onair', pages[programPageNumber - 1])
@@ -177,8 +177,10 @@ function App() {
         <Toolbox
           filePath={filePath}
           fileLoadTime={fileLoadTime}
+          fontSize={fontSize}
           onFileOpenClick={handleFileOpenClick}
           onFileReloadClick={handleFileReloadClick}
+          onFontSizeInput={handleFontSizeInput}
         />
 
         <Playback
