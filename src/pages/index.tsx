@@ -16,6 +16,8 @@ import useMonitor from '../hooks/useMonitor'
 import usePreviewProgramListener from '../hooks/usePreviewProgramListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
 
+const appName = 'MD Presenter'
+
 function App() {
   const {
     isFileDropHovering,
@@ -42,6 +44,16 @@ function App() {
     setPreviewPageNumber,
     setProgramPageNumber,
   })
+
+  useEffect(() => {
+    Promise.all([
+      import('@tauri-apps/api/path'),
+      import('@tauri-apps/api/window'),
+    ]).then(([{ sep }, { appWindow }]) => {
+      const filename = filePath.slice(filePath.lastIndexOf(sep) + 1)
+      appWindow.setTitle(filename ? `${filename} - ${appName}` : appName)
+    })
+  }, [filePath])
 
   useEffect(() => {
     convertMarkdownToHast(fileContents).then((hastRoot) => {
@@ -95,7 +107,7 @@ function App() {
           x,
           y,
           url: '/onair',
-          title: '송출 - MD Presenter',
+          title: `송출 - ${appName}`,
           visible: false,
           alwaysOnTop: monitors.length > 1,
           decorations: false,
