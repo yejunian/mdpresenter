@@ -1,7 +1,7 @@
 import { ask } from '@tauri-apps/api/dialog'
 import { emit } from '@tauri-apps/api/event'
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 
 import PageList, { PageListSelectEventHandler } from '../components/PageList'
 import Playback from '../components/Playback'
@@ -27,6 +27,8 @@ function App() {
   } = useFileOpener()
 
   const { monitors, primaryIndex: primaryMonitorIndex } = useMonitor()
+  const [monitorIndex, setMonitorIndex] = useState(0)
+  const [monitorRatio, setMonitorRatio] = useState('16 / 9')
 
   const [pages, setPages] = useState<Page[]>([])
   const [previewPageNumber, setPreviewPageNumber] = useState(1)
@@ -46,6 +48,18 @@ function App() {
       setPages(splitHastRoot(hastRoot))
     })
   }, [fileContents])
+
+  useEffect(() => {
+    if (!monitors || monitors.length === 0) {
+      return
+    }
+
+    const nextMonitorIndex = (primaryMonitorIndex + 1) % monitors.length
+    const { width, height } = monitors[nextMonitorIndex].size
+
+    setMonitorIndex(nextMonitorIndex)
+    setMonitorRatio(`${width} / ${height}`)
+  }, [monitors, primaryMonitorIndex])
 
   const handlePresentationClear = (effect?: string) => {
     emit('main:program', null)
@@ -75,8 +89,7 @@ function App() {
 
   const toggleOnair = async (withShortcut?: boolean) => {
     if (!onairWindow) {
-      const { x, y } =
-        monitors[(primaryMonitorIndex + 1) % monitors.length].position
+      const { x, y } = monitors[monitorIndex].position
       createOnairWindow(
         {
           x,
@@ -133,7 +146,14 @@ function App() {
   })
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div
+      className="flex flex-col min-h-screen"
+      style={
+        {
+          '--aspect-ratio-presentation': monitorRatio,
+        } as CSSProperties
+      }
+    >
       <div
         className={clsx(
           'sticky top-0 z-10',
