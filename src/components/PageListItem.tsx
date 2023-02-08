@@ -25,7 +25,7 @@ function PageListItem({
   )
 
   return (
-    <article>
+    <article className="select-none">
       <div
         className={clsx(
           'flex items-center justify-center',

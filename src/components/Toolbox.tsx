@@ -19,7 +19,7 @@ function Toolbox({
   onFontSizeInput,
 }: ToolboxProps) {
   return (
-    <section className="col-span-3 grid grid-cols-6 gap-x-6 gap-y-2 mb-auto">
+    <section className="col-span-3 grid grid-cols-6 gap-x-6 gap-y-2 mb-auto select-none">
       <div className="col-span-6 grid grid-cols-6 gap-x-6 gap-y-2">
         <button
           className={clsx(
@@ -66,7 +66,7 @@ function Toolbox({
           step={0.1}
           onInput={onFontSizeInput}
         />
-        %
+        % <small className="opacity-70">(기본값 7.5%)</small>
       </div>
     </section>
   )

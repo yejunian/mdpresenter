@@ -30,7 +30,7 @@ function Playback({
   const handleClearClick = () => onClear()
 
   return (
-    <section className={clsx(className, 'grid grid-cols-5 gap-6')}>
+    <section className={clsx(className, 'grid grid-cols-5 gap-6 select-none')}>
       <div className="col-span-1 flex flex-col gap-2">
         <button
           className={clsx(
