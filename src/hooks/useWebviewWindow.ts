@@ -11,9 +11,7 @@ function useWebviewWindow(label: string) {
       isLocallyProcessing = true
       setProcessing(true)
 
-      const { WebviewWindow, appWindow } = await import(
-        '@tauri-apps/api/window'
-      )
+      const { WebviewWindow } = await import('@tauri-apps/api/window')
 
       const localWebview = new WebviewWindow(label, options)
 

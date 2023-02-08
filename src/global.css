@@ -45,7 +45,6 @@
   }
   .presentation a {
     @apply ex-high-legibility;
-    /* @apply cursor-none pointer-events-none; */
     @apply pointer-events-none;
   }
   .presentation pre {
@@ -55,7 +54,6 @@
     @apply text-[0.875em];
   }
   .presentation img {
-    /* @apply absolute inset-0 w-full h-full object-contain text-left; */
     @apply w-full h-full object-contain text-left;
   }
   .presentation ins {
@@ -120,7 +118,6 @@
 }
 
 @layer utilities {
-  /* TODO - Manipulate aspect ratio by overriding CSS variables */
   .ex-aspect-ratio-variable {
     aspect-ratio: var(--aspect-ratio-presentation, 16 / 9);
   }
