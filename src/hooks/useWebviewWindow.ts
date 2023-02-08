@@ -23,7 +23,6 @@ function useWebviewWindow(label: string) {
         }
 
         await localWebview.show()
-        appWindow.setFocus()
       })
 
       localWebview.once('tauri://destroyed', () => {

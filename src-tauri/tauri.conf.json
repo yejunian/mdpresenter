@@ -31,8 +31,6 @@
         "all": false,
         "close": true,
         "create": true,
-        "setAlwaysOnTop": true,
-        "setFocus": true,
         "show": true
       }
     },
