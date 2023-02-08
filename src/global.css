@@ -82,6 +82,19 @@
   .presentation ul {
     @apply list-disc;
   }
+  .presentation ul.contains-task-list {
+    @apply list-none -indent-5;
+  }
+  .presentation ul.contains-task-list input[type="checkbox"] {
+    @apply hidden;
+  }
+  .presentation li.task-list-item:has(input[type="checkbox"])::before {
+    @apply text-neutral-400;
+    content: '☐ ';
+  }
+  .presentation li.task-list-item:has(input[type="checkbox"][checked])::before {
+    content: '☑ ';
+  }
   .presentation table {
     @apply text-[0.75em];
   }
