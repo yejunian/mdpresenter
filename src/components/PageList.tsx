@@ -47,7 +47,7 @@ function PageList({
   }, [pages])
 
   useEffect(() => {
-    if (!window || pages.length === 0) {
+    if (!window || pages.length === 0 || programPageNumber === 0) {
       return
     }
 
@@ -66,7 +66,7 @@ function PageList({
       scrollDestination = targetBottom + rowGap - window.innerHeight
     }
 
-    if (scrollDestination) {
+    if (typeof scrollDestination === 'number') {
       window.scrollTo({
         top: scrollDestination,
         behavior: 'smooth',
