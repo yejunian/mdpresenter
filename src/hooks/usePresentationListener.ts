@@ -1,7 +1,7 @@
 import { emit, listen } from '@tauri-apps/api/event'
 import { useEffect, useState } from 'react'
 
-import Config from '../core/Config'
+import ConfigLegacy from '../core/Config'
 import Page from '../core/Page'
 
 function usePresentationListener(pages: Page[]) {
@@ -33,7 +33,7 @@ function usePresentationListener(pages: Page[]) {
       }
     })
 
-    const unlistenConfig = listen<Config>('main:config', ({ payload }) => {
+    const unlistenConfig = listen<ConfigLegacy>('main:config', ({ payload }) => {
       if (payload.fontSize) {
         setFontSize(payload.fontSize)
       }

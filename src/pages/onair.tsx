@@ -2,7 +2,7 @@ import { emit, listen, once } from '@tauri-apps/api/event'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
-import Config from '../core/Config'
+import ConfigLegacy from '../core/Config'
 import Page from '../core/Page'
 import convertHastToReactElements from '../core/convertHastToReactElement'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
@@ -20,7 +20,7 @@ function Onair() {
       setPage(payload)
     )
 
-    const unlistenPresentationConfig = listen<Config>(
+    const unlistenPresentationConfig = listen<ConfigLegacy>(
       'main:config',
       ({ payload }) => {
         if (payload.fontSize) {
