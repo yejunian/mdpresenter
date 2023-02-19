@@ -53,7 +53,7 @@ async function readConfigFile(): Promise<Config> {
 }
 
 function useConfig(): AppConfigHookReturn {
-  const [config, setConfig] = useState<Config>({ ...defaultAppConfig })
+  const [config, setConfig] = useState<Config>(defaultAppConfig)
 
   useEffect(() => {
     readConfigFile().then((newConfig) => setConfig(newConfig))
@@ -83,7 +83,7 @@ function useConfig(): AppConfigHookReturn {
     }
   }
 
-  return { config: { ...config }, updateConfigFile }
+  return { config, updateConfigFile }
 }
 
 export default useConfig
