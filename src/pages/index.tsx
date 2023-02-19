@@ -1,7 +1,7 @@
 import { ask } from '@tauri-apps/api/dialog'
 import { emit } from '@tauri-apps/api/event'
 import clsx from 'clsx'
-import { CSSProperties, FormEvent, useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 
 import PageList, { PageListSelectEventHandler } from '../components/PageList'
 import Playback from '../components/Playback'
@@ -33,11 +33,14 @@ function App() {
   const [monitorRatio, setMonitorRatio] = useState('16 / 9')
 
   const [pages, setPages] = useState<Page[]>([])
-  const { previewPageNumber, programPageNumber, fontSize } =
+  const { previewPageNumber, programPageNumber } =
     usePresentationListener(pages)
 
   const { webview: onairWindow, create: createOnairWindow } =
     useWebviewWindow('onair')
+
+  const { webview: settingsWindow, create: createSettingsWindow } =
+    useWebviewWindow('settings')
 
   useEffect(() => {
     Promise.all([
@@ -89,9 +92,19 @@ function App() {
   const handleFileOpenClick = () => selectFile()
   const handleFileReloadClick = () => loadFile()
 
-  const handleFontSizeInput = (event: FormEvent<HTMLInputElement>) => {
-    if (event.currentTarget.checkValidity()) {
-      emit('main:config', { fontSize: event.currentTarget.valueAsNumber })
+  const handleSettingsClick = () => {
+    if (settingsWindow) {
+      settingsWindow.setFocus()
+    } else {
+      createSettingsWindow({
+        url: '/settings',
+        title: `설정 - ${appName}`,
+        visible: false,
+        fileDropEnabled: false,
+        resizable: false,
+        width: 600,
+        height: 600,
+      })
     }
   }
 
@@ -177,10 +190,9 @@ function App() {
         <Toolbox
           filePath={filePath}
           fileLoadTime={fileLoadTime}
-          fontSize={fontSize}
           onFileOpenClick={handleFileOpenClick}
           onFileReloadClick={handleFileReloadClick}
-          onFontSizeInput={handleFontSizeInput}
+          onSettingsClick={handleSettingsClick}
         />
 
         <Playback
