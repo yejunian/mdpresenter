@@ -12,6 +12,7 @@ import { Config, defaultAppConfig } from '../core/Config'
 
 type AppConfigHookReturn = {
   config: Config
+  reloadConfigFile: () => Promise<void>
   updateConfigFile: (updates: Partial<Config>) => Promise<void>
 }
 
@@ -53,18 +54,8 @@ async function readConfigFile(): Promise<Config> {
 }
 
 function useConfig(): AppConfigHookReturn {
+  // TODO - Make config global state and get it from the backend
   const [config, setConfig] = useState<Config>(defaultAppConfig)
-
-  useEffect(() => {
-    readConfigFile().then((newConfig) => setConfig(newConfig))
-  }, [])
-
-  if (!loadable) {
-    return {
-      config: { ...defaultAppConfig },
-      updateConfigFile: async () => {},
-    }
-  }
 
   const updateConfigFile = async (updates: Partial<Config>) => {
     try {
@@ -83,7 +74,23 @@ function useConfig(): AppConfigHookReturn {
     }
   }
 
-  return { config, updateConfigFile }
+  const loadConfigFile = async () => {
+    setConfig(await readConfigFile())
+  }
+
+  useEffect(() => {
+    loadConfigFile()
+  }, [])
+
+  if (loadable) {
+    return { config, updateConfigFile, reloadConfigFile: loadConfigFile }
+  } else {
+    return {
+      config: { ...defaultAppConfig },
+      reloadConfigFile: async () => {},
+      updateConfigFile: async () => {},
+    }
+  }
 }
 
 export default useConfig
