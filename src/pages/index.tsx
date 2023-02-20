@@ -12,7 +12,7 @@ import convertMarkdownToHast from '../core/convertMarkdownToHast'
 import splitHastRoot from '../core/splitHastRoot'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
-import useConfig from '../hooks/useConfig'
+import useConfigListener from '../hooks/useConfigListener'
 import useFileOpener from '../hooks/useFileOpener'
 import useMonitor from '../hooks/useMonitor'
 import usePresentationListener from '../hooks/usePresentationListener'
@@ -21,7 +21,7 @@ import useWebviewWindow from '../hooks/useWebviewWindow'
 const appName = 'MD Presenter'
 
 function App() {
-  const { config } = useConfig()
+  const config = useConfigListener()
 
   const {
     isFileDropHovering,

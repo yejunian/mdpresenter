@@ -5,10 +5,10 @@ import { getOnairContainerStyle } from '../core/getStyle'
 import Page from '../core/Page'
 import convertHastToReactElements from '../core/convertHastToReactElement'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
-import useConfig from '../hooks/useConfig'
+import useConfigListener from '../hooks/useConfigListener'
 
 function Onair() {
-  const { config } = useConfig()
+  const config = useConfigListener()
   const [page, setPage] = useState<Page>(null)
 
   const containerStyle: CSSProperties = useMemo(

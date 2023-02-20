@@ -1,4 +1,5 @@
 import { message } from '@tauri-apps/api/dialog'
+import { emit } from '@tauri-apps/api/event'
 import {
   BaseDirectory,
   exists,
@@ -68,6 +69,7 @@ function useConfig(): AppConfigHookReturn {
 
       // TODO - Validate new configuration
       await writeConfigFile(newConfig)
+      await emit('settings:update')
       setConfig(newConfig)
     } catch (error) {
       message('설정을 저장하는 데 실패했습니다.', { type: 'error' })
