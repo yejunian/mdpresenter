@@ -14,13 +14,15 @@
 
   .presentation {
     @apply flex justify-center items-center;
-    @apply w-full h-full bg-black;
-    @apply leading-snug text-center font-semibold text-white;
+    @apply w-full h-full bg-black text-white;
     @apply overflow-hidden;
+
+    font-weight: var(--font-weight-regular, 600);
   }
 
   .presentation :is(h1, h2, h3, h4, h5, h6) {
-    @apply font-extrabold text-pink-300;
+    color: var(--color-primary, yellow);
+    font-weight: var(--font-weight-bold, 800);
   }
   .presentation h1 {
     @apply text-[1.25em];
@@ -41,7 +43,7 @@
     @apply text-[0.625em];
   }
   .presentation :is(b, strong) {
-    @apply font-black;
+    font-weight: var(--font-weight-bold, 800);
   }
   .presentation a {
     @apply ex-high-legibility;
@@ -104,6 +106,9 @@
   }
   .presentation :is(th, td) {
     @apply px-[0.5em];
+  }
+  .presentation :is(th) {
+    font-weight: var(--font-weight-bold, 800);
   }
   .presentation :is(blockquote, div) {
     @apply space-y-[0.375em];
