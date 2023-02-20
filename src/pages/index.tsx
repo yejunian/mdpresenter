@@ -6,11 +6,13 @@ import { CSSProperties, useEffect, useState } from 'react'
 import PageList, { PageListSelectEventHandler } from '../components/PageList'
 import Playback from '../components/Playback'
 import Toolbox from '../components/Toolbox'
+import ConfigContext from '../contexts/ConfigContext'
 import Page from '../core/Page'
 import convertMarkdownToHast from '../core/convertMarkdownToHast'
 import splitHastRoot from '../core/splitHastRoot'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
 import useCommonShortcutListener from '../hooks/useCommonShortcutListener'
+import useConfig from '../hooks/useConfig'
 import useFileOpener from '../hooks/useFileOpener'
 import useMonitor from '../hooks/useMonitor'
 import usePresentationListener from '../hooks/usePresentationListener'
@@ -19,6 +21,8 @@ import useWebviewWindow from '../hooks/useWebviewWindow'
 const appName = 'MD Presenter'
 
 function App() {
+  const { config } = useConfig()
+
   const {
     isFileDropHovering,
     selectFile,
@@ -171,76 +175,78 @@ function App() {
   })
 
   return (
-    <div
-      className="flex flex-col min-h-screen"
-      style={
-        {
-          '--aspect-ratio-presentation': monitorRatio,
-        } as CSSProperties
-      }
-    >
+    <ConfigContext.Provider value={config}>
       <div
-        className={clsx(
-          'sticky top-0 z-10',
-          'grid grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-6',
-          'mx-auto p-6 pb-0 w-[1176px] md:w-[1464px] lg:w-[1752px]',
-          'bg-zinc-800 bg-opacity-60 backdrop-blur-sm'
-        )}
-      >
-        <Toolbox
-          filePath={filePath}
-          fileLoadTime={fileLoadTime}
-          onFileOpenClick={handleFileOpenClick}
-          onFileReloadClick={handleFileReloadClick}
-          onSettingsClick={handleSettingsClick}
-        />
-
-        <Playback
-          className="col-span-5 col-start-4 md:col-start-6 lg:col-start-8"
-          preview={pages[previewPageNumber - 1] ?? null}
-          program={pages[programPageNumber - 1] ?? null}
-          isOnairOpen={onairWindow ? true : false}
-          onOnairClick={handleOnairClick}
-          onClear={handlePresentationClear}
-          onCut={handlePresentationCut}
-          onPreviewChange={handlePresentationPreviewChange}
-        />
-
-        <hr
-          className={clsx(
-            'col-span-full mx-auto border-t-2 border-t-zinc-600 w-full',
-            'shadow-sm shadow-zinc-900'
-          )}
-        />
-      </div>
-
-      <PageList
-        className="grow mx-auto w-[1176px] md:w-[1464px] lg:w-[1752px]"
-        pages={pages}
-        previewPageNumber={previewPageNumber}
-        programPageNumber={programPageNumber}
-        onSelect={handlePageListSelect}
-      />
-
-      <div
-        className={clsx(
-          'fixed inset-0',
-          'p-3 w-full h-screen bg-zinc-800 bg-opacity-60 backdrop-blur-sm',
-          isFileDropHovering || 'hidden'
-        )}
+        className="flex flex-col min-h-screen"
+        style={
+          {
+            '--aspect-ratio-presentation': monitorRatio,
+          } as CSSProperties
+        }
       >
         <div
           className={clsx(
-            'flex items-center justify-center',
-            'border-4 border-dashed border-zinc-500 rounded-3xl w-full h-full'
+            'sticky top-0 z-10',
+            'grid grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-6',
+            'mx-auto p-6 pb-0 w-[1176px] md:w-[1464px] lg:w-[1752px]',
+            'bg-zinc-800 bg-opacity-60 backdrop-blur-sm'
           )}
         >
-          <div className="mb-6 font-normal text-6xl text-zinc-400">
-            여기에 놓아서 파일 열기
+          <Toolbox
+            filePath={filePath}
+            fileLoadTime={fileLoadTime}
+            onFileOpenClick={handleFileOpenClick}
+            onFileReloadClick={handleFileReloadClick}
+            onSettingsClick={handleSettingsClick}
+          />
+
+          <Playback
+            className="col-span-5 col-start-4 md:col-start-6 lg:col-start-8"
+            preview={pages[previewPageNumber - 1] ?? null}
+            program={pages[programPageNumber - 1] ?? null}
+            isOnairOpen={onairWindow ? true : false}
+            onOnairClick={handleOnairClick}
+            onClear={handlePresentationClear}
+            onCut={handlePresentationCut}
+            onPreviewChange={handlePresentationPreviewChange}
+          />
+
+          <hr
+            className={clsx(
+              'col-span-full mx-auto border-t-2 border-t-zinc-600 w-full',
+              'shadow-sm shadow-zinc-900'
+            )}
+          />
+        </div>
+
+        <PageList
+          className="grow mx-auto w-[1176px] md:w-[1464px] lg:w-[1752px]"
+          pages={pages}
+          previewPageNumber={previewPageNumber}
+          programPageNumber={programPageNumber}
+          onSelect={handlePageListSelect}
+        />
+
+        <div
+          className={clsx(
+            'fixed inset-0',
+            'p-3 w-full h-screen bg-zinc-800 bg-opacity-60 backdrop-blur-sm',
+            isFileDropHovering || 'hidden'
+          )}
+        >
+          <div
+            className={clsx(
+              'flex items-center justify-center',
+              'border-4 border-dashed border-zinc-500 rounded-3xl w-full h-full'
+            )}
+          >
+            <div className="mb-6 font-normal text-6xl text-zinc-400">
+              여기에 놓아서 파일 열기
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ConfigContext.Provider>
   )
 }
 

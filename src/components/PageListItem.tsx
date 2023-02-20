@@ -1,8 +1,10 @@
 import clsx from 'clsx'
-import { MouseEvent, useMemo } from 'react'
+import { MouseEvent, useContext, useMemo } from 'react'
 
 import Page from '../core/Page'
 import convertHastToReactElements from '../core/convertHastToReactElement'
+import ConfigContext from '../contexts/ConfigContext'
+import { getPageListItemStyle } from '../core/getStyle'
 
 type PageListItemProps = {
   page: Page | null
@@ -19,6 +21,8 @@ function PageListItem({
   onClick,
   onDoubleClick,
 }: PageListItemProps) {
+  const config = useContext(ConfigContext)
+
   const preview = useMemo(
     () => convertHastToReactElements(page?.contents),
     [page?.contents]
@@ -51,13 +55,7 @@ function PageListItem({
         data-page={page?.pageNumber}
       >
         <div className="h-full overflow-hidden ex-aspect-ratio-variable">
-          <div
-            className={clsx(
-              'presentation',
-              'px-[25.6px] py-[14.4px] text-[21.6px] w-[200%] h-[200%]',
-              'scale-50 origin-top-left'
-            )}
-          >
+          <div className="presentation" style={getPageListItemStyle(config)}>
             {preview}
           </div>
         </div>
