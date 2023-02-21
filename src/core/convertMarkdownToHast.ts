@@ -12,7 +12,7 @@ const sanitizationSchema: typeof defaultSchema = {
   ...defaultSchema,
   attributes: {
     ...defaultSchema.attributes,
-    '*': [...(defaultSchema.attributes['*'] ?? []), ['className']],
+    '*': [...(defaultSchema.attributes['*'] ?? []), ['className'], ['style']],
   },
   allowComments: true,
 }
