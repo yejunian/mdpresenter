@@ -1,15 +1,20 @@
 import { emit, listen, once } from '@tauri-apps/api/event'
-import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useMemo, useState } from 'react'
 
-import Config from '../core/Config'
+import { getOnairContainerStyle } from '../core/getStyle'
 import Page from '../core/Page'
 import convertHastToReactElements from '../core/convertHastToReactElement'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
+import useConfigListener from '../hooks/useConfigListener'
 
 function Onair() {
+  const config = useConfigListener()
   const [page, setPage] = useState<Page>(null)
-  const [fontSize, setFontSize] = useState(7.5)
+
+  const containerStyle: CSSProperties = useMemo(
+    () => getOnairContainerStyle(config),
+    [config]
+  )
 
   useEffect(() => {
     const unlistenInit = once<Page>('main:init-onair', ({ payload }) =>
@@ -20,21 +25,11 @@ function Onair() {
       setPage(payload)
     )
 
-    const unlistenPresentationConfig = listen<Config>(
-      'main:config',
-      ({ payload }) => {
-        if (payload.fontSize) {
-          setFontSize(payload.fontSize)
-        }
-      }
-    )
-
     emit('onair:load')
 
     return () => {
       unlistenInit.then((unlisten) => unlisten())
       unlistenProgram.then((unlisten) => unlisten())
-      unlistenPresentationConfig.then((unlisten) => unlisten())
     }
   }, [])
 
@@ -42,12 +37,8 @@ function Onair() {
 
   return (
     <div
-      className={clsx(
-        'presentation',
-        'absolute inset-0 px-[5vw] py-[5vw]',
-        'cursor-none select-none'
-      )}
-      style={{ fontSize: `${fontSize}vh` }}
+      className="presentation absolute inset-0 cursor-none select-none"
+      style={containerStyle}
     >
       {convertHastToReactElements(page?.contents)}
     </div>

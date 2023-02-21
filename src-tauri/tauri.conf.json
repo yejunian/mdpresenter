@@ -21,7 +21,13 @@
       },
       "fs": {
         "all": false,
-        "readFile": true
+        "exists": true,
+        "readFile": true,
+        "scope": ["$APPLOCALDATA/mdpresenter.config.json"],
+        "writeFile": true
+      },
+      "path": {
+        "all": true
       },
       "shell": {
         "all": false,
@@ -31,6 +37,7 @@
         "all": false,
         "close": true,
         "create": true,
+        "setFocus": true,
         "setTitle": true,
         "show": true
       }

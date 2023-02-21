@@ -1,22 +1,20 @@
 import clsx from 'clsx'
-import { FormEventHandler } from 'react'
+import { MouseEventHandler } from 'react'
 
 type ToolboxProps = {
   filePath?: string
   fileLoadTime?: string
-  fontSize?: number
   onFileOpenClick: () => void
   onFileReloadClick: () => void
-  onFontSizeInput: FormEventHandler
+  onSettingsClick: MouseEventHandler
 }
 
 function Toolbox({
   filePath,
   fileLoadTime,
-  fontSize = 7.5,
   onFileOpenClick,
   onFileReloadClick,
-  onFontSizeInput,
+  onSettingsClick,
 }: ToolboxProps) {
   return (
     <section className="col-span-3 grid grid-cols-6 gap-x-6 gap-y-2 mb-auto select-none">
@@ -55,18 +53,18 @@ function Toolbox({
         </div>
       </div>
 
-      <div className="col-span-6 text-sm text-zinc-400">
-        폰트 기본 사이즈: 화면 높이의{' '}
-        <input
-          type="number"
-          className="border border-zinc-500 rounded pl-1 w-12 bg-zinc-800 tabular-nums"
-          value={fontSize}
-          min={1}
-          max={200}
-          step={0.1}
-          onInput={onFontSizeInput}
-        />
-        % <small className="opacity-70">(기본값 7.5%)</small>
+      <div className="col-span-6 grid grid-cols-6 gap-x-6 gap-y-2 mt-2">
+        <button
+          className={clsx(
+            'col-span-3',
+            'border border-zinc-600 hover:border-zinc-500 rounded',
+            'p-1 bg-zinc-800 text-sm'
+          )}
+          type="button"
+          onClick={onSettingsClick}
+        >
+          설정
+        </button>
       </div>
     </section>
   )

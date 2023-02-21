@@ -1,14 +1,11 @@
 import { emit, listen } from '@tauri-apps/api/event'
 import { useEffect, useState } from 'react'
 
-import Config from '../core/Config'
 import Page from '../core/Page'
 
 function usePresentationListener(pages: Page[]) {
   const [previewPageNumber, setPreviewPageNumber] = useState(1)
   const [programPageNumber, setProgramPageNumber] = useState(0)
-
-  const [fontSize, setFontSize] = useState(7.5)
 
   useEffect(() => {
     const unlistenPreview = listen<Page | null>('main:preview', (event) => {
@@ -33,23 +30,15 @@ function usePresentationListener(pages: Page[]) {
       }
     })
 
-    const unlistenConfig = listen<Config>('main:config', ({ payload }) => {
-      if (payload.fontSize) {
-        setFontSize(payload.fontSize)
-      }
-    })
-
     return () => {
       unlistenPreview.then((unlisten) => unlisten())
       unlistenProgram.then((unlisten) => unlisten())
-      unlistenConfig.then((unlisten) => unlisten())
     }
   }, [pages])
 
   return {
     previewPageNumber,
     programPageNumber,
-    fontSize,
   }
 }
 
