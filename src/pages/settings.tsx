@@ -2,7 +2,7 @@ import { emit } from '@tauri-apps/api/event'
 import clsx from 'clsx'
 import { useEffect, useRef } from 'react'
 
-import { Config, configContents, defaultAppConfig } from '../core/Config'
+import { Config, configContents, baseConfig } from '../core/Config'
 import useConfig from '../hooks/useConfig'
 
 function Settings() {
@@ -24,7 +24,7 @@ function Settings() {
 
     const updatedConfig: Partial<Config> = {}
 
-    for (const key of Object.keys(defaultAppConfig)) {
+    for (const key of Object.keys(baseConfig)) {
       if (!form[key]) {
         continue
       }
@@ -34,10 +34,6 @@ function Settings() {
       switch (input.type) {
         case 'checkbox':
           updatedConfig[key] = input.checked
-          break
-
-        case 'number':
-          updatedConfig[key] = input.valueAsNumber
           break
 
         default:
@@ -94,7 +90,7 @@ function Settings() {
 
             <dl className="mt-6 space-y-6">
               {section.contents.map((entry) => {
-                const type = typeof defaultAppConfig[entry.key]
+                const type = typeof baseConfig[entry.key]
 
                 return (
                   <div
@@ -106,14 +102,16 @@ function Settings() {
                   >
                     <dt className="leading-4 text-sm text-zinc-300">
                       <div>{entry.name}</div>
-                      <div
-                        className={clsx(
-                          'text-xs font-semibold text-zinc-500',
-                          'ex-high-legibility'
-                        )}
-                      >
-                        {entry.domain ? `${entry.domain.join(' | ')}` : type}
-                      </div>
+                      {entry.domain ? (
+                        <div
+                          className={clsx(
+                            'text-xs font-semibold text-zinc-500',
+                            'ex-high-legibility'
+                          )}
+                        >
+                          {entry.domain.join(' | ')}
+                        </div>
+                      ) : null}
                     </dt>
 
                     <dd
@@ -129,30 +127,30 @@ function Settings() {
                         )}
                       >
                         {type === 'boolean' ? (
-                          <input
-                            type="checkbox"
-                            className="block cursor-pointer"
-                            name={entry.key}
-                            defaultChecked={
-                              config[entry.key] ?? defaultAppConfig[entry.key]
-                            }
-                          />
+                          <>
+                            <input
+                              type="checkbox"
+                              className="block cursor-pointer"
+                              name={entry.key}
+                              defaultChecked={
+                                config[entry.key] ?? baseConfig[entry.key]
+                              }
+                            />
+                            <div className="ml-2">활성화</div>
+                          </>
                         ) : (
                           <input
-                            type={type === 'number' ? 'number' : 'text'}
+                            type="text"
                             className={clsx(
                               'block border border-zinc-500 rounded',
                               'px-2 py-1 w-full bg-transparent cursor-auto'
                             )}
                             name={entry.key}
                             defaultValue={
-                              config[entry.key] ?? defaultAppConfig[entry.key]
+                              config[entry.key] ?? baseConfig[entry.key]
                             }
                           />
                         )}
-                        {type === 'boolean' ? (
-                          <div className="ml-2">활성화</div>
-                        ) : null}
                       </label>
                       {entry.description?.trim() ? (
                         <div className="leading-4 font-medium">

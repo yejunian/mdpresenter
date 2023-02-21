@@ -1,6 +1,11 @@
 import { CSSProperties } from 'react'
 
-import { Config, defaultAppConfig } from './Config'
+import { Config, baseConfig } from './Config'
+
+type SanitizeNumberOptions = {
+  fallback: string
+  validate: (parsed: number) => boolean
+}
 
 const thumbnailHeight = 144
 const thumbnailRenderFactor = 2
@@ -52,8 +57,21 @@ function getAbsoluteSize(percentage: number): number {
   return (percentage / 100) * thumbnailHeight
 }
 
-function sanitizeFontSize(fontSize: number): number {
-  return fontSize > 0 ? fontSize : defaultAppConfig['font-size']
+function validateType<T>(value: unknown, fallback: T): T {
+  if (typeof value === typeof fallback) {
+    return value as T
+  } else {
+    return fallback
+  }
+}
+
+function sanitizeNumber(
+  source: string,
+  { fallback, validate }: SanitizeNumberOptions
+): number {
+  const parsed = parseFloat(source)
+
+  return validate(parsed) ? parsed : parseFloat(fallback)
 }
 
 function getBaseStyle(config: Config): CSSProperties {
@@ -62,33 +80,45 @@ function getBaseStyle(config: Config): CSSProperties {
     // - fontSize
     // - padding
 
-    fontFamily: config['font-family'] || defaultAppConfig['font-family'],
+    fontFamily: validateType(config['font-family'], baseConfig['font-family']),
 
-    '--font-weight-regular':
-      config['font-weight-regular'] || defaultAppConfig['font-weight-regular'],
+    '--font-weight-regular': validateType(
+      config['font-weight-regular'],
+      baseConfig['font-weight-regular']
+    ),
 
-    '--font-weight-bold':
-      config['font-weight-bold'] || defaultAppConfig['font-weight-bold'],
+    '--font-weight-bold': validateType(
+      config['font-weight-bold'],
+      baseConfig['font-weight-bold']
+    ),
 
-    fontFeatureSettings:
-      config['font-feature-settings'] ||
-      defaultAppConfig['font-feature-settings'],
+    fontFeatureSettings: validateType(
+      config['font-feature-settings'],
+      baseConfig['font-feature-settings']
+    ),
 
-    '--color-primary':
-      config['primary-color'] || defaultAppConfig['primary-color'],
+    '--color-primary': validateType(
+      config['primary-color'],
+      baseConfig['primary-color']
+    ),
 
     lineHeight:
-      config['line-height'] >= 0
-        ? config['line-height']
-        : defaultAppConfig['line-height'],
+      sanitizeNumber(config['line-height'], {
+        fallback: baseConfig['line-height'],
+        validate: (value) => value >= 0,
+      }) / 100,
 
-    textAlign: config['text-align'] || defaultAppConfig['text-align'],
+    textAlign: validateType(config['text-align'], baseConfig['text-align']),
 
-    justifyContent:
-      config['container-align-x'] || defaultAppConfig['container-align-x'],
+    justifyContent: validateType(
+      config['container-align-x'],
+      baseConfig['container-align-x']
+    ),
 
-    alignItems:
-      config['container-align-y'] || defaultAppConfig['container-align-y'],
+    alignItems: validateType(
+      config['container-align-y'],
+      baseConfig['container-align-y']
+    ),
   } as CSSProperties
 }
 
@@ -97,13 +127,17 @@ export function getPageListItemStyle(config: Config): CSSProperties {
     ...getBaseStyle(config),
 
     fontSize: `${
-      (sanitizeFontSize(config['font-size']) / 100) *
+      (sanitizeNumber(config['font-size'], {
+        fallback: baseConfig['font-size'],
+        validate: (value) => value > 0,
+      }) /
+        100) *
       thumbnailHeight *
       thumbnailRenderFactor
     }px`,
 
     padding: addUnitToPadding(
-      config['window-padding'] || defaultAppConfig['window-padding'],
+      config['window-padding'] || baseConfig['window-padding'],
       { isForThumbnails: true, aspectRatio: 16 / 9 }
     ),
 
@@ -118,10 +152,13 @@ export function getOnairContainerStyle(config: Config): CSSProperties {
   return {
     ...getBaseStyle(config),
 
-    fontSize: `${sanitizeFontSize(config['font-size'])}vh`,
+    fontSize: `${sanitizeNumber(config['font-size'], {
+      fallback: baseConfig['font-size'],
+      validate: (value) => value > 0,
+    })}vh`,
 
     padding: addUnitToPadding(
-      config['window-padding'] || defaultAppConfig['window-padding']
+      config['window-padding'] || baseConfig['window-padding']
     ),
   } as CSSProperties
 }

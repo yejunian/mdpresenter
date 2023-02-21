@@ -9,7 +9,7 @@ import {
 } from '@tauri-apps/api/fs'
 import { useEffect, useState } from 'react'
 
-import { Config, defaultAppConfig } from '../core/Config'
+import { Config, baseConfig } from '../core/Config'
 
 type AppConfigHookReturn = {
   config: Config
@@ -27,7 +27,7 @@ async function writeConfigFile(newConfig: Config): Promise<void> {
 }
 
 async function readConfigFile(): Promise<Config> {
-  const config: Config = { ...defaultAppConfig }
+  const config: Config = { ...baseConfig }
 
   try {
     if (await exists(configFilePath, fsOptions)) {
@@ -35,14 +35,14 @@ async function readConfigFile(): Promise<Config> {
         await readTextFile(configFilePath, fsOptions)
       ) as Partial<Config>
 
-      for (const key of Object.keys(defaultAppConfig)) {
+      for (const key of Object.keys(baseConfig)) {
         // TODO - Type check
         if (key in parsed) {
           config[key] = parsed[key]
         }
       }
     } else {
-      await writeConfigFile(defaultAppConfig)
+      await writeConfigFile(baseConfig)
     }
   } catch (error) {
     message('설정 파일을 불러오는 데 실패하여 기본 설정을 사용합니다.', {
@@ -56,13 +56,13 @@ async function readConfigFile(): Promise<Config> {
 
 function useConfig(): AppConfigHookReturn {
   // TODO - Make config global state and get it from the backend
-  const [config, setConfig] = useState<Config>(defaultAppConfig)
+  const [config, setConfig] = useState<Config>(baseConfig)
 
   const updateConfigFile = async (updates: Partial<Config>) => {
     try {
       const newConfig: Config = { ...config }
       for (const key of Object.keys(updates)) {
-        if (key in defaultAppConfig) {
+        if (key in baseConfig) {
           newConfig[key] = updates[key]
         }
       }
@@ -88,7 +88,7 @@ function useConfig(): AppConfigHookReturn {
     return { config, updateConfigFile, reloadConfigFile: loadConfigFile }
   } else {
     return {
-      config: { ...defaultAppConfig },
+      config: { ...baseConfig },
       reloadConfigFile: async () => {},
       updateConfigFile: async () => {},
     }

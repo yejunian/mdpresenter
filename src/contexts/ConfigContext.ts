@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 
-import { defaultAppConfig } from '../core/Config'
+import { baseConfig } from '../core/Config'
 
-const ConfigContext = createContext(defaultAppConfig)
+const ConfigContext = createContext(baseConfig)
 
 export default ConfigContext

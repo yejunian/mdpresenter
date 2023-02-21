@@ -1,11 +1,3 @@
-type ConfigLegacy = {
-  fontSize: number
-}
-
-export default ConfigLegacy
-
-// TODO - Remove lines above
-
 export type ConfigContents = ConfigSection[]
 
 export type ConfigSection = {
@@ -27,13 +19,13 @@ export type Config = {
   'display-simulaton-ratio': string
 
   'font-family': string
-  'font-size': number
+  'font-size': string
   'font-weight-regular': string
   'font-weight-bold': string
   'font-feature-settings': string
   'primary-color': string
 
-  'line-height': number
+  'line-height': string
   'text-align': string
   'container-align-x': string
   'container-align-y': string
@@ -43,19 +35,19 @@ export type Config = {
   'styles-user-defined': string
 }
 
-export const defaultAppConfig: Config = {
+export const baseConfig: Config = {
   'display-name': '',
   'display-simulaton-enabled': false,
   'display-simulaton-ratio': '5 / 4',
 
   'font-family': '"Pretendard Variable", Pretendard',
-  'font-size': 7.5,
+  'font-size': '7.5',
   'font-weight-regular': '600',
   'font-weight-bold': '800',
   'font-feature-settings': '"calt", "case"',
   'primary-color': '#fbcfe8',
 
-  'line-height': 1.4,
+  'line-height': '140',
   'text-align': 'center',
   'container-align-x': 'center',
   'container-align-y': 'center',
@@ -128,7 +120,7 @@ export const configContents: ConfigContents = [
     contents: [
       {
         key: 'line-height',
-        name: '줄 높이',
+        name: '줄 높이 (%)',
       },
       {
         key: 'text-align',
@@ -162,6 +154,7 @@ export const configContents: ConfigContents = [
       {
         key: 'file-encoding',
         name: '파일 인코딩',
+        domain: ['utf-8'],
       },
       {
         key: 'styles-user-defined',
