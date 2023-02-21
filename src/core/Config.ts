@@ -58,29 +58,29 @@ export const baseConfig: Config = {
 }
 
 export const configContents: ConfigContents = [
-  {
-    title: '디스플레이',
-    description: '송출 화면과 관련된 설정',
-    contents: [
-      {
-        key: 'display-name',
-        name: '송출 창 출력 모니터',
-        description:
-          '값을 비워 두면 주 모니터의 다음 모니터에 송출 창을 띄웁니다.',
-      },
-      {
-        key: 'display-simulaton-enabled',
-        name: '화면비 시뮬레이션',
-        description: '특정 화면비에서 어떻게 송출될지를 테스트합니다.',
-      },
-      {
-        key: 'display-simulaton-ratio',
-        name: '시뮬레이션할 화면비',
-        description:
-          '`m:n`을 `m / n` 형태로 입력합니다. m과 n을 약분하지 않아도 괜찮습니다.',
-      },
-    ],
-  },
+  // {
+  //   title: '디스플레이',
+  //   description: '송출 화면과 관련된 설정',
+  //   contents: [
+  //     {
+  //       key: 'display-name',
+  //       name: '송출 창 출력 모니터',
+  //       description:
+  //         '값을 비워 두면 주 모니터의 다음 모니터에 송출 창을 띄웁니다.',
+  //     },
+  //     {
+  //       key: 'display-simulaton-enabled',
+  //       name: '화면비 시뮬레이션',
+  //       description: '특정 화면비에서 어떻게 송출될지를 테스트합니다.',
+  //     },
+  //     {
+  //       key: 'display-simulaton-ratio',
+  //       name: '시뮬레이션할 화면비',
+  //       description:
+  //         '`m:n`을 `m / n` 형태로 입력합니다. m과 n을 약분하지 않아도 괜찮습니다.',
+  //     },
+  //   ],
+  // },
   {
     title: '글자',
     description: '송출 창의 글자 속성',
@@ -148,18 +148,18 @@ export const configContents: ConfigContents = [
       },
     ],
   },
-  {
-    title: '고급',
-    contents: [
-      {
-        key: 'file-encoding',
-        name: '파일 인코딩',
-        domain: ['utf-8'],
-      },
-      {
-        key: 'styles-user-defined',
-        name: '사용자 정의 스타일시트 파일',
-      },
-    ],
-  },
+  // {
+  //   title: '고급',
+  //   contents: [
+  //     {
+  //       key: 'file-encoding',
+  //       name: '파일 인코딩',
+  //       domain: ['utf-8'],
+  //     },
+  //     {
+  //       key: 'styles-user-defined',
+  //       name: '사용자 정의 스타일시트 파일',
+  //     },
+  //   ],
+  // },
 ]
