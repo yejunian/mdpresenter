@@ -20,104 +20,104 @@
     font-weight: var(--font-weight-regular, 600);
   }
 
-  .presentation :is(h1, h2, h3, h4, h5, h6) {
-    color: var(--color-primary, yellow);
+  .presentation :where(h1, h2, h3, h4, h5, h6) {
+    color: var(--color-primary, #99f6e4);
     font-weight: var(--font-weight-bold, 800);
   }
-  .presentation h1 {
+  .presentation :where(h1) {
     @apply text-[1.25em];
   }
-  .presentation h2 {
+  .presentation :where(h2) {
     @apply text-[1.125em];
   }
-  .presentation h3 {
+  .presentation :where(h3) {
     @apply text-[1em];
   }
-  .presentation h4 {
+  .presentation :where(h4) {
     @apply text-[0.875em];
   }
-  .presentation h5 {
+  .presentation :where(h5) {
     @apply text-[0.75em];
   }
-  .presentation h6 {
+  .presentation :where(h6) {
     @apply text-[0.625em];
   }
-  .presentation :is(b, strong) {
+  .presentation :where(b, strong) {
     font-weight: var(--font-weight-bold, 800);
   }
-  .presentation a {
+  .presentation :where(a) {
     @apply ex-high-legibility;
     @apply pointer-events-none;
   }
-  .presentation pre {
+  .presentation :where(pre) {
     @apply text-left whitespace-pre-wrap;
   }
-  .presentation code {
+  .presentation :where(code) {
     @apply text-[0.875em];
   }
-  .presentation img {
+  .presentation :where(img) {
     @apply w-full h-full object-contain text-left;
   }
-  .presentation ins {
+  .presentation :where(ins) {
     @apply underline;
   }
-  .presentation :is(del, s) {
+  .presentation :where(del, s) {
     @apply decoration-from-font opacity-75;
   }
-  .presentation kbd {
+  .presentation :where(kbd) {
     @apply border-t-[0.05em] border-b-[0.2em] border-x-[0.1em] rounded-[0.2em];
     @apply border-t-neutral-600 border-l-neutral-600;
     @apply border-r-neutral-600 border-b-neutral-700;
     @apply px-[0.2em] bg-neutral-900 text-[0.875em] align-text-bottom;
   }
-  .presentation :is(ol, ul) {
+  .presentation :where(ol, ul) {
     @apply space-y-[0.125em] list-outside pl-[2em] text-left text-[0.875em];
   }
-  .presentation :is(ol, ul) :where(ol, ul) {
+  .presentation :where(ol, ul) :where(ol, ul) {
     @apply text-[1em];
   }
-  .presentation ol {
+  .presentation :where(ol) {
     @apply list-decimal;
   }
-  .presentation ul {
+  .presentation :where(ul) {
     @apply list-disc;
   }
-  .presentation ul.contains-task-list {
+  .presentation :where(ul.contains-task-list) {
     @apply list-none -indent-5;
   }
-  .presentation ul.contains-task-list input[type="checkbox"] {
+  .presentation :where(ul.contains-task-list input[type="checkbox"]) {
     @apply hidden;
   }
-  .presentation li.task-list-item:has(input[type="checkbox"])::before {
+  .presentation :where(li.task-list-item:has(input[type="checkbox"]))::before {
     @apply text-neutral-400;
     content: '☐ ';
   }
-  .presentation li.task-list-item:has(input[type="checkbox"][checked])::before {
+  .presentation :where(li.task-list-item:has(input[type="checkbox"][checked]))::before {
     content: '☑ ';
   }
-  .presentation table {
+  .presentation :where(table) {
     @apply text-[0.75em];
   }
-  .presentation thead {
+  .presentation :where(thead) {
     @apply border-b-[0.1em] border-neutral-500;
   }
-  .presentation tfoot {
+  .presentation :where(tfoot) {
     @apply border-t-[0.1em] border-neutral-500;
   }
-  .presentation :is(th, td) {
+  .presentation :where(th, td) {
     @apply px-[0.5em];
   }
-  .presentation :is(th) {
+  .presentation :where(th) {
     font-weight: var(--font-weight-bold, 800);
   }
-  .presentation :is(blockquote, div) {
+  .presentation :where(blockquote, div) {
     @apply space-y-[0.375em];
   }
-  .presentation mark {
+  .presentation :where(mark) {
     @apply mx-[-0.05em] rounded-[0.1em] px-[0.05em];
     @apply bg-yellow-500 bg-opacity-40 text-white;
   }
-  .presentation small {
+  .presentation :where(small) {
     @apply text-[0.875em];
   }
 }
