@@ -81,14 +81,17 @@ function PageListItem({
             className={clsx(
               'font-medium text-xs leading-4',
               isProgram || isPreview ? 'text-opacity-50' : null,
-              isProgram ? 'text-red-400' : isPreview ? 'text-green-400' : null
+              isProgram ? 'text-red-300' : isPreview ? 'text-green-300' : null
             )}
           >
             {isProgram ? 'PGM' : isPreview ? 'PVW' : <>&nbsp;</>}
           </div>
         </div>
         <div
-          className="font-medium whitespace-pre-wrap overflow-hidden ex-line-clamp-2"
+          className={clsx(
+            'font-medium text-zinc-400',
+            'whitespace-pre-wrap overflow-hidden ex-line-clamp-2'
+          )}
           title={page?.note || undefined}
         >
           {page?.note || null}

@@ -96,7 +96,7 @@ function PageList({
         <div
           className={clsx(
             'col-span-full self-center justify-self-center mb-12',
-            'leading-relaxed text-2xl font-medium text-zinc-500'
+            'leading-relaxed text-2xl font-medium text-zinc-500 select-none'
           )}
         >
           불러올{' '}
