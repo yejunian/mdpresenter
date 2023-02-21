@@ -1,8 +1,10 @@
+import { ask } from '@tauri-apps/api/dialog'
 import { emit } from '@tauri-apps/api/event'
 import clsx from 'clsx'
 import { useEffect, useRef } from 'react'
 
 import { Config, configContents, baseConfig } from '../core/Config'
+import { appName } from '../core/constants'
 import useConfig from '../hooks/useConfig'
 
 function Settings() {
@@ -13,6 +15,17 @@ function Settings() {
   useEffect(() => {
     emit('settings:load')
   }, [])
+
+  const handleResetClick = async () => {
+    if (
+      await ask('설정을 초기화할까요?', {
+        title: `설정 - ${appName}`,
+        type: 'warning',
+      })
+    ) {
+      updateConfigFile(baseConfig)
+    }
+  }
 
   const handleApplyClick = () => {
     const form = formRef.current
@@ -55,7 +68,18 @@ function Settings() {
           'bg-opacity-60 backdrop-blur-sm'
         )}
       >
-        <h1 className="col-span-3 leading-none text-lg font-medium">설정</h1>
+        <h1 className="col-span-2 leading-none text-lg font-medium">설정</h1>
+        <button
+          type="button"
+          className={clsx(
+            'block border border-zinc-600 hover:border-red-800 rounded',
+            'p-1 bg-zinc-800',
+            'text-sm font-medium text-zinc-300'
+          )}
+          onClick={handleResetClick}
+        >
+          초기화
+        </button>
         <button
           type="button"
           className={clsx(

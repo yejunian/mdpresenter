@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from 'react'
 
 import { Config, baseConfig } from '../core/Config'
+import { appName } from '../core/constants'
 
 type AppConfigHookReturn = {
   config: Config
@@ -46,6 +47,7 @@ async function readConfigFile(): Promise<Config> {
     }
   } catch (error) {
     message('설정 파일을 불러오는 데 실패하여 기본 설정을 사용합니다.', {
+      title: `오류 - ${appName}`,
       type: 'error',
     })
     loadable = false

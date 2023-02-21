@@ -8,6 +8,7 @@ import Playback from '../components/Playback'
 import Toolbox from '../components/Toolbox'
 import ConfigContext from '../contexts/ConfigContext'
 import Page from '../core/Page'
+import { appName } from '../core/constants'
 import convertMarkdownToHast from '../core/convertMarkdownToHast'
 import splitHastRoot from '../core/splitHastRoot'
 import useCommonShortcutEmitter from '../hooks/useCommonShortcutEmitter'
@@ -17,8 +18,6 @@ import useFileOpener from '../hooks/useFileOpener'
 import useMonitor from '../hooks/useMonitor'
 import usePresentationListener from '../hooks/usePresentationListener'
 import useWebviewWindow from '../hooks/useWebviewWindow'
-
-const appName = 'MD Presenter'
 
 function App() {
   const config = useConfigListener()
@@ -139,7 +138,10 @@ function App() {
       )
     } else if (
       withShortcut ||
-      (await ask('송출 창을 닫을까요?', { type: 'warning' }))
+      (await ask('송출 창을 닫을까요?', {
+        title: `송출 - ${appName}`,
+        type: 'warning',
+      }))
     ) {
       onairWindow.close()
     }

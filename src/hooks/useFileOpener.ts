@@ -2,6 +2,7 @@ import { message } from '@tauri-apps/api/dialog'
 import { listen } from '@tauri-apps/api/event'
 import { useEffect, useState } from 'react'
 
+import { appName } from '../core/constants'
 import {
   loadSingleTextFile,
   selectSingleTextFile,
@@ -71,7 +72,10 @@ function useFileOpener() {
         setFileDropHovering(false)
 
         if (payload.length > 1) {
-          message('파일은 하나씩만 열 수 있습니다.', { type: 'error' })
+          message('파일은 하나씩만 열 수 있습니다.', {
+            title: `안내 - ${appName}`,
+            type: 'warning',
+          })
           return
         }
 
