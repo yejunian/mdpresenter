@@ -45,7 +45,7 @@
     "bundle": {
       "active": true,
       "category": "Productivity",
-      "copyright": "",
+      "copyright": "Copyright (C) 2023 yejunian.",
       "deb": {
         "depends": []
       },
@@ -72,7 +72,10 @@
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "timestampUrl": "",
+        "wix": {
+          "language": "ko-KR"
+        }
       }
     },
     "security": {
