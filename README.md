@@ -35,7 +35,7 @@ Markdown 파일을 불러와 프레젠테이션을 진행하는 데 쓰입니다
 * 당장 메모장으로도 만들 수 있습니다. <small>(Windows를 사용하는 경우, Windows 10 19H1 버전 이상 권장)</small>
 * Markdown 문법에 따라 내용을 작성하고, `.md` 확장자로 저장하기만 하면 됩니다. <small>(저장 시 인코딩을 ‘UTF-8’로 지정해야 합니다.)</small>
     * 잘 모르겠다면... 그냥 `.txt`로 저장해도 불러올 수 있습니다.
-* 기본·확장 문법의 이해를 돕기 위한 예제 파일: [`sample.md`](./sample.md)
+* 기본·확장 문법의 이해를 돕기 위한 예제 파일: [`sample.md`](./sample.md?plain=1)
 
 ### Markdown 기본 문법
 
