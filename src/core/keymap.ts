@@ -16,6 +16,7 @@ type Modifiers = {
 const keymap: Keymap = {
   // Genearl shortcuts
   Enter_c: ['onair'],
+  NumpadEnter_c: ['onair'],
   KeyO_c: ['file', 'open'],
   KeyR_c: ['file', 'reload'],
 
