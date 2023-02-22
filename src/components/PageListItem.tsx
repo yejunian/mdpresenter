@@ -89,7 +89,7 @@ function PageListItem({
         </div>
         <div
           className={clsx(
-            'font-medium text-zinc-400',
+            'grow font-medium text-zinc-400',
             'whitespace-pre-wrap overflow-hidden ex-line-clamp-2'
           )}
           title={page?.note || undefined}

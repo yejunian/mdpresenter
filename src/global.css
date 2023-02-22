@@ -96,7 +96,7 @@
     content: '☑ ';
   }
   .presentation :where(table) {
-    @apply text-[0.75em];
+    @apply mx-auto text-[0.75em];
   }
   .presentation :where(thead) {
     @apply border-b-[0.1em] border-neutral-500;
