@@ -8,20 +8,44 @@
   },
   "package": {
     "productName": "mdpresenter",
-    "version": "0.0.0"
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
       "all": false,
+      "dialog": {
+        "all": false,
+        "ask": true,
+        "message": true,
+        "open": true
+      },
+      "fs": {
+        "all": false,
+        "exists": true,
+        "readFile": true,
+        "scope": ["$APPLOCALDATA/mdpresenter.config.json"],
+        "writeFile": true
+      },
+      "path": {
+        "all": true
+      },
       "shell": {
         "all": false,
         "open": true
+      },
+      "window": {
+        "all": false,
+        "close": true,
+        "create": true,
+        "setFocus": true,
+        "setTitle": true,
+        "show": true
       }
     },
     "bundle": {
       "active": true,
       "category": "Productivity",
-      "copyright": "",
+      "copyright": "Copyright (C) 2023 yejunian.",
       "deb": {
         "depends": []
       },
@@ -48,7 +72,10 @@
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "timestampUrl": "",
+        "wix": {
+          "language": "ko-KR"
+        }
       }
     },
     "security": {
@@ -59,11 +86,13 @@
     },
     "windows": [
       {
-        "fullscreen": false,
-        "height": 600,
-        "resizable": true,
         "title": "MD Presenter",
-        "width": 800
+        "width": 1280,
+        "height": 960,
+        "minHeight": 680,
+        "minWidth": 1200,
+        "fullscreen": false,
+        "resizable": true
       }
     ]
   }

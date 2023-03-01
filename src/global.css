@@ -1,3 +1,140 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-zinc-800 text-zinc-300;
+    @apply break-words break-keep;
+
+    --font-feature-default: "calt", "case";
+
+    font-feature-settings: var(--font-feature-default, initial);
+  }
+
+  .presentation {
+    @apply flex justify-center items-center;
+    @apply w-full h-full bg-black text-white;
+    @apply overflow-hidden;
+
+    font-weight: var(--font-weight-regular, 600);
+  }
+
+  .presentation :where(h1, h2, h3, h4, h5, h6) {
+    color: var(--color-primary, #99f6e4);
+    font-weight: var(--font-weight-bold, 800);
+  }
+  .presentation :where(h1) {
+    @apply text-[1.25em];
+  }
+  .presentation :where(h2) {
+    @apply text-[1.125em];
+  }
+  .presentation :where(h3) {
+    @apply text-[1em];
+  }
+  .presentation :where(h4) {
+    @apply text-[0.875em];
+  }
+  .presentation :where(h5) {
+    @apply text-[0.75em];
+  }
+  .presentation :where(h6) {
+    @apply text-[0.625em];
+  }
+  .presentation :where(b, strong) {
+    font-weight: var(--font-weight-bold, 800);
+  }
+  .presentation :where(a) {
+    @apply ex-high-legibility;
+    @apply pointer-events-none;
+  }
+  .presentation :where(pre) {
+    @apply text-left whitespace-pre-wrap;
+  }
+  .presentation :where(code) {
+    @apply text-[0.875em];
+  }
+  .presentation :where(img) {
+    @apply w-full h-full object-contain text-left;
+  }
+  .presentation :where(ins) {
+    @apply underline;
+  }
+  .presentation :where(del, s) {
+    @apply decoration-from-font opacity-75;
+  }
+  .presentation :where(kbd) {
+    @apply border-t-[0.05em] border-b-[0.2em] border-x-[0.1em] rounded-[0.2em];
+    @apply border-t-neutral-600 border-l-neutral-600;
+    @apply border-r-neutral-600 border-b-neutral-700;
+    @apply px-[0.2em] bg-neutral-900 text-[0.875em] align-text-bottom;
+  }
+  .presentation :where(ol, ul) {
+    @apply space-y-[0.125em] list-outside pl-[2em] text-left text-[0.875em];
+  }
+  .presentation :where(ol, ul) :where(ol, ul) {
+    @apply text-[1em];
+  }
+  .presentation :where(ol) {
+    @apply list-decimal;
+  }
+  .presentation :where(ul) {
+    @apply list-disc;
+  }
+  .presentation :where(ul.contains-task-list) {
+    @apply list-none -indent-5;
+  }
+  .presentation :where(ul.contains-task-list input[type="checkbox"]) {
+    @apply hidden;
+  }
+  .presentation :where(li.task-list-item:has(input[type="checkbox"]))::before {
+    @apply text-neutral-400;
+    content: '☐ ';
+  }
+  .presentation :where(li.task-list-item:has(input[type="checkbox"][checked]))::before {
+    content: '☑ ';
+  }
+  .presentation :where(table) {
+    @apply mx-auto text-[0.75em];
+  }
+  .presentation :where(thead) {
+    @apply border-b-[0.1em] border-neutral-500;
+  }
+  .presentation :where(tfoot) {
+    @apply border-t-[0.1em] border-neutral-500;
+  }
+  .presentation :where(th, td) {
+    @apply px-[0.5em];
+  }
+  .presentation :where(th) {
+    font-weight: var(--font-weight-bold, 800);
+  }
+  .presentation :where(blockquote, div) {
+    @apply space-y-[0.375em];
+  }
+  .presentation :where(mark) {
+    @apply mx-[-0.05em] rounded-[0.1em] px-[0.05em];
+    @apply bg-yellow-500 bg-opacity-40 text-white;
+  }
+  .presentation :where(small) {
+    @apply text-[0.875em];
+  }
+}
+
+@layer utilities {
+  .ex-aspect-ratio-variable {
+    aspect-ratio: var(--aspect-ratio-presentation, 16 / 9);
+  }
+
+  .ex-line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .ex-high-legibility {
+    font-feature-settings: "ss06", var(--font-feature-default);
+  }
+}
